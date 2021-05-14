@@ -6,16 +6,51 @@ const Commodity = require('../models/commodity');
 const StockRecord = require('../models/stockRecord');
 
 const passport = require('passport');
-//const { isAdminL, isLoggedIn } = require('../middleware');
+const { render } = require('ejs');
+const { isAdminL, isLoggedIn } = require('../middleware');
+const User = require('../models/user');
 
-//dd an dashboard
+router.get('/fake', async (req, res) => {
+  const user = await new User({ username: 'test' });
+  await User.register(user, 'test');
+  res.send(user);
+});
 
+router.get('/logout', (req, res) => {
+  req.logOut();
+
+  res.redirect('/login');
+});
+//dd pag log in
+router.get('/login', (req, res) => {
+  res.render('admin/login');
+});
+router.post(
+  '/login',
+  passport.authenticate('local', {
+    //failureFlash: true,
+    failureRedirect: '/login',
+  }),
+  async (req, res) => {
+    //req.flash('success', 'log in successful');
+    //const redirectUrl = req.session.returnTo || '/admin' || '/barangay';
+    //delete req.session.returnTo;
+    if (await req.user.isBarangay) {
+      res.redirect('/');
+    }
+    res.redirect('/');
+    //res.redirect(redirectUrl);
+  }
+);
 //dd pag add donator
 //mag add cya dd donation
-router.get('/', (req, res) => {
-  res.render('donation');
+router.get('/', isLoggedIn, (req, res) => {
+  res.render('admin/dashboard');
 });
-router.post('/', async (req, res) => {
+router.get('/add', isLoggedIn, (req, res) => {
+  res.render('admin/donation');
+});
+router.post('/add', isLoggedIn, async (req, res) => {
   const {
     name,
     contactNumber,
@@ -66,6 +101,23 @@ router.post('/', async (req, res) => {
     console.log('asda');
   }
 
-  res.redirect('/');
+  res.redirect('/add');
+});
+
+//dd man pag imud sa tanan na donation
+router.get('/view', isLoggedIn, async (req, res) => {
+  const donation = await Donation.find({}).populate({
+    path: 'itemDonation',
+    populate: { path: 'commodity' },
+    select: ['name', 'quantity', 'units'],
+  });
+
+  res.render('admin/viewDonation', { donation });
+});
+
+//dd man pag view sa tanan na stock
+router.get('/stock', isLoggedIn, async (req, res) => {
+  const stock = await StockRecord.find({});
+  res.render('admin/stocklist', { stock });
 });
 module.exports = router;

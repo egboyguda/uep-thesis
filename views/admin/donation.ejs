@@ -1,0 +1,73 @@
+<% layout('layouts/sidebar')%> 
+
+    <div class="row">
+        <h1 class="text-center">Donor Information</h1>
+        <div class="col-6 offset-3">
+            <form action="/add" method="post">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Donator Name</label>
+                    <input type="text" name="name" id="name" class="form-control">
+                </div>  
+                <div class="mb-3">
+                    <label for="password" class="form-label">Contact Number</label>
+                    <input type="text" name="contactNumber" id="password" class="form-control">
+                 </div>     
+                <div class="mb-3">
+                    <label for="regions" class="form-label">Civil Status</label>
+                    <select name="civilStatus" id="regions" class="form-select">
+                        <option selected>Open this select menu</option>
+                            <option value="single">Single</option>
+                            <option name="married">married</option>
+                            <option name="annulled">annulled</option>
+                            <option name="widow">widow</option>
+                    </select>
+                    </div>
+                    <h1 class="text-center">Donation Information</h1>
+                    <div class="mb-3">
+                        <label for="commodityName" class="form-label">Commodity Name</label>
+                        <input type="text" name="commodityName" id="commodityName" class="form-control">
+                    </div> 
+                    <div class="mb-3">
+                        <label for="regions" class="form-label">Units</label>
+                        <select name="units" id="regions" class="form-select">
+                            <option selected>Select Units</option>
+                                <option value="kg">Kg</option>
+                                <option name="pcs">pcs</option> 
+                        </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select name="category" id="category" class="form-select">
+                                <option selected>Select Commodity Category</option>
+                                <option name="instant noodles">instant noodles</option>
+                                <option name="noddles">noddles</option>
+                                <option name="rice">rice</option>
+                                <option name="chicken meat">chicken meat</option>
+                                <option name="beef meat">beef meat</option>
+                                <option name="pork meat">pork meat</option>
+                                <option name="coffee">coffee</option>
+                                <option name="milk">milk</option>
+                            </select>
+                            </div>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" name="quantity" id="quantity" class="form-control">
+                            
+                        </div> 
+
+                        <input type="submit" value="submit" class="btn btn-success" >
+                </div>
+              
+                
+                
+        
+        
+        
+        
+            </form>
+        </div>
+            
+
+
+
+
