@@ -53,6 +53,7 @@ router.post('/add', isLoggedIn, async (req, res) => {
     units,
     quantity,
     category,
+    calamity,
   } = req.body;
   console.log(req.body);
   const data = await Donation.find({
@@ -63,6 +64,7 @@ router.post('/add', isLoggedIn, async (req, res) => {
       name: name,
       contactNumber: contactNumber,
       civilStatus: `${civilStatus.trim()}`,
+      calamity: calamity,
     });
     const commodity = await new Commodity({
       name: `${commodityName.toLowerCase().replace(/\s+/g, '')}`,

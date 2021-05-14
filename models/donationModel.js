@@ -16,6 +16,9 @@ const donationSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Commodity',
   },
+  calamity: {
+    type: String,
+  },
 });
 const Donation = mongoose.model('Donation', donationSchema);
 module.exports = Donation;
