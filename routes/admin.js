@@ -10,12 +10,6 @@ const { render } = require('ejs');
 const { isAdminL, isLoggedIn } = require('../middleware');
 const User = require('../models/user');
 
-router.get('/fake', async (req, res) => {
-  const user = await new User({ username: 'test' });
-  await User.register(user, 'test');
-  res.send(user);
-});
-
 router.get('/logout', (req, res) => {
   req.logOut();
 

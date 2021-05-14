@@ -12,7 +12,7 @@ const User = require('./models/user');
 const partials = require('express-partials');
 //pag open sa databese
 //'mongodb://localhost/web-based-relief-tracking' |
-mongoose.connect('mongodb://localhost/web-based-relief-tracking', {
+mongoose.connect(process.env.DB_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
