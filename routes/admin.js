@@ -76,12 +76,13 @@ router.post('/add', isLoggedIn, async (req, res) => {
     donate.itemDonation = await commodity;
     await donate.save();
 
+    // maghanap stock na kun
     const stock = await StockRecord.find({
-      name: { $eq: commodity.name },
+      name: { $eq: commodity.category },
     });
     if (stock.length === 0) {
       const newStock = await new StockRecord({
-        name: commodity.name,
+        name: commodity.category,
         units: commodity.units,
         quantity: commodity.quantity,
       });
