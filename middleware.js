@@ -13,8 +13,8 @@ module.exports.isAdminL = async (req, res, next) => {
   }
   next();
 };
-module.exports.isBarangay = async (req, res, next) => {
-  if (!req.user.isBarangay) {
+module.exports.isStaff = async (req, res, next) => {
+  if (!req.user.isStaff) {
     await res.send('your not authorize to enter');
   }
   next();

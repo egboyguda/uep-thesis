@@ -12,12 +12,15 @@ const User = require('./models/user');
 const partials = require('express-partials');
 //pag open sa databese
 //'mongodb://localhost/web-based-relief-tracking' |
-mongoose.connect(process.env.DB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+mongoose.connect(
+  'mongodb://localhost/web-based-relief-tracking' || process.env.DB_URL,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  }
+);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -54,6 +57,9 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('ejs', ejsMate);
 
+// para ma access sa ejs n na varible miskn
+//wara ig pass sa route
+
 //static file
 //mga js an css
 app.use(express.static(path.join(__dirname, 'public')));
@@ -61,8 +67,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 //dd pag handle sa form tkang sa request
 app.use(express.urlencoded({ extended: true }));
 
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  //res.locals.isStaff = req.user.isStaff;
+  next();
+});
+
 const adminRoutes = require('./routes/admin');
+const staffRoutes = require('./routes/staff');
 app.use('/', adminRoutes);
+app.use('/staff', staffRoutes);
 
 app.listen(PORT, () => {
   console.log('app is running');

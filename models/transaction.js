@@ -1,22 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const passportLocalMongoose = require('passport-local-mongoose');
 
-const userSchema = new Schema({
-  person: {
-    type: Schema.Types.ObjectId,
-    ref: 'Person',
+const transactionSchema = new Schema({
+  name: {
+    type: String,
   },
-  isAdmin: {
-    type: Boolean,
-  },
-  isBarangay: {
-    type: Boolean,
-  },
-  isStaff: {
-    type: Boolean,
-  },
-  barangay: {
+  destination: {
+    type: String,
     enum: [
       'Cababto-an',
       'Cabari-an',
@@ -45,8 +35,15 @@ const userSchema = new Schema({
       'Tula',
     ],
   },
+  quantity: {
+    units: {
+      type: String,
+    },
+    number: {
+      type: Number,
+    },
+  },
 });
 
-userSchema.plugin(passportLocalMongoose);
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+const Transaction = mongoose.model('Transaction', transactionSchema);
+module.exports = Transaction;

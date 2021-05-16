@@ -1,0 +1,26 @@
+
+<% layout('layouts/sidebar')%> 
+
+<h1 class="text-center">List Of All Transactions</h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Commodity</th>
+
+        <th scope="col">Destination</th>
+        <th scope="col">Quantity</th>
+      
+    </thead>
+    <tbody id="tbody">
+        <% for (data of transaction) {%>
+    <tr>
+       
+            <th><%=data.name %> </th> 
+            <th><%= data.destination  %> </th>
+            <th> <%=data.quantity.number  %><%=data.quantity.units%> </th>
+            
+       
+    </tr>
+    <% } %>
+    </tbody>
+  </table>

@@ -10,6 +10,12 @@ const { render } = require('ejs');
 const { isAdminL, isLoggedIn } = require('../middleware');
 const User = require('../models/user');
 
+router.get('/fake', async (req, res) => {
+  const user = new User({ username: 'test2', isStaff: true });
+  await User.register(user, 'test2');
+  res.redirect('/login');
+});
+
 router.get('/logout', (req, res) => {
   req.logOut();
 
@@ -29,9 +35,9 @@ router.post(
     //req.flash('success', 'log in successful');
     //const redirectUrl = req.session.returnTo || '/admin' || '/barangay';
     //delete req.session.returnTo;
-    if (await req.user.isBarangay) {
-      res.redirect('/');
-    }
+    // if (await req.user.isBarangay) {
+    //   res.redirect('/');
+    // }
     res.redirect('/');
     //res.redirect(redirectUrl);
   }
@@ -41,10 +47,10 @@ router.post(
 router.get('/', isLoggedIn, (req, res) => {
   res.render('admin/dashboard');
 });
-router.get('/add', isLoggedIn, (req, res) => {
+router.get('/add', isLoggedIn, isAdminL, (req, res) => {
   res.render('admin/donation');
 });
-router.post('/add', isLoggedIn, async (req, res) => {
+router.post('/add', isLoggedIn, isAdminL, async (req, res) => {
   const {
     name,
     contactNumber,
@@ -102,7 +108,7 @@ router.post('/add', isLoggedIn, async (req, res) => {
 });
 
 //dd man pag imud sa tanan na donation
-router.get('/view', isLoggedIn, async (req, res) => {
+router.get('/view', isLoggedIn, isAdminL, async (req, res) => {
   const donation = await Donation.find({}).populate({
     path: 'itemDonation',
     populate: { path: 'commodity' },
@@ -113,7 +119,7 @@ router.get('/view', isLoggedIn, async (req, res) => {
 });
 
 //dd man pag view sa tanan na stock
-router.get('/stock', isLoggedIn, async (req, res) => {
+router.get('/stock', isLoggedIn, isAdminL, async (req, res) => {
   const stock = await StockRecord.find({});
   res.render('admin/stocklist', { stock });
 });
