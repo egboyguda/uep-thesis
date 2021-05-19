@@ -6,21 +6,7 @@ const commoditySchema = new Schema({
   name: {
     type: String,
   },
-  category: {
-    type: String,
-    enum: [
-      'instant noodles',
-      'noddles',
-      'rice',
-      'chicken meat',
-      'beef meat',
-      'pork meat',
-      'coffee',
-      'milk',
-      'can goods',
-      'eggs',
-    ],
-  },
+
   units: {
     type: String,
     enum: ['kg', 'pcs'],

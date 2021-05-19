@@ -10,14 +10,19 @@ const localStrategy = require('passport-local');
 const session = require('express-session');
 const User = require('./models/user');
 const partials = require('express-partials');
+const multer = require('multer');
+const upload = multer();
 //pag open sa databese
 //'mongodb://localhost/web-based-relief-tracking' |
-mongoose.connect(process.env.DB_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+mongoose.connect(
+  'mongodb://localhost/web-based-relief-tracking', //process.env.DB_URL,
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  }
+);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -38,6 +43,8 @@ const sessionConfig = {
 
 //dd pag use sa session
 app.use(session(sessionConfig));
+app.use(express.json());
+app.use(upload.array());
 
 //dd pag gamit na sa passport
 app.use(passport.initialize());

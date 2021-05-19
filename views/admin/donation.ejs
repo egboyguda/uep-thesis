@@ -9,12 +9,12 @@
                     <input type="text" name="name" id="name" class="form-control">
                 </div>  
                 <div class="mb-3">
-                    <label for="password" class="form-label">Contact Number</label>
-                    <input type="text" name="contactNumber" id="password" class="form-control">
+                    <label for="contactNumber" class="form-label">Contact Number</label>
+                    <input type="text" name="contactNumber" id="contactNumber" class="form-control">
                  </div>
                  <div class="mb-3">
                     <label for="calamity" class="form-label">Calamity</label>
-                    <input type="text" name="calamity" id="name" class="form-control">
+                    <input type="text" name="calamity" id="calamity" class="form-control">
                 </div>       
                 <div class="mb-3">
                     <label for="regions" class="form-label">Civil Status</label>
@@ -29,40 +29,44 @@
                     <h1 class="text-center">Donation Information</h1>
                     <div class="mb-3">
                         <label for="commodityName" class="form-label">Commodity Name</label>
-                        <input type="text" name="commodityName" id="commodityName" class="form-control">
+                        <input type="text" id="commodityName" class="form-control">
                     </div> 
                     <div class="mb-3">
-                        <label for="regions" class="form-label">Units</label>
-                        <select name="units" id="regions" class="form-select">
+                        <label for="units" class="form-label">Units</label>
+                        <select id="units" class="form-select">
                             <option selected>Select Units</option>
                                 <option value="kg">Kg</option>
-                                <option name="pcs">pcs</option> 
+                                <option value="pcs">pcs</option> 
                         </select>
                         </div>
-                        <div class="mb-3">
-                            <label for="category" class="form-label">Category</label>
-                            <select name="category" id="category" class="form-select">
-                                <option selected>Select Commodity Category</option>
-                                <option name="instant noodles">instant noodles</option>
-                                <option name="noddles">noddles</option>
-                                <option name="rice">rice</option>
-                                <option name="chicken meat">chicken meat</option>
-                                <option name="beef meat">beef meat</option>
-                                <option name="pork meat">pork meat</option>
-                                <option name="coffee">coffee</option>
-                                <option name="milk">milk</option>
-                            </select>
-                            </div>
+                        
                         <div class="mb-3">
                             <label for="quantity" class="form-label">Quantity</label>
-                            <input type="number" name="quantity" id="quantity" class="form-control">
+                            <input type="number"  id="quantity" class="form-control">
                             
                         </div> 
 
-                        <input type="submit" value="submit" class="btn btn-success" >
-                </div>
-              
+                        
+                        <button type='button' class="btn btn-success" onClick='updateForm();'>add</button>
+                        <button type='button' class="btn btn-success" onClick='sendData();'>Submit</button>
+                        
+                        <h1 class="text-center">Donation</h1>
+                <table class="table" id='results' name='table'>
+                    <thead>
+                      <tr>
+                        <th scope="col">Commodity</th>
                 
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Units</th>
+                      
+                    </thead>
+                    <tbody id="tbody">
+                       
+                    </tbody>
+                  </table>
+                
+                  <input type="submit" value="submit" class="btn btn-success">
+                </div>
                 
         
         
@@ -70,6 +74,64 @@
         
             </form>
         </div>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
+
+        <script>
+        
+            class Commodity {
+                constructor(commodityName,units,quantity){
+                    this.commodityName = commodityName,
+                    this.quantity=quantity,
+                    this.units=units
+                }
+            }
+           
+            var data=[];
+            async function updateForm(){
+               
+                var commodityName = document.getElementById('commodityName').value;
+                var units = document.getElementById('units').value;
+                var quantity = document.getElementById('quantity').value;
+                
+          
+
+               
+                var table = document.getElementById('results');
+
+                 var row = table.insertRow(-1);
+                 var cell1 = row.insertCell(0);
+                 var cell2 = row.insertCell(1);
+                 var cell3 = row.insertCell(2);
+                 cell1.innerHTML = `<input type=\"text\" name=\"commodityName\" value=\"${commodityName}\" readonly=\"readonly\">`;
+                 cell2.innerHTML = `<input type=\"text\" name=\"quantity\" value=\"${parseFloat(quantity)}\" readonly=\"readonly\">`;
+                 cell3.innerHTML =`<input type=\"text\" name=\"units\" value=\"${units}\" readonly=\"readonly\">`;
+                data.push(new Commodity(commodityName,units,quantity))
+                //table.innerHTML+="tr"
+
+                
+            };
+
+            async function sendData(){
+                var name = document.getElementById('name').value;
+                var calamity = document.getElementById('calamity').value;
+                axios.post('/add',{
+                    name: name,
+                    calamity:calamity,
+                    commodity:data,
+                }).then(()=>{
+                    console.log('ok')
+                    alert('successfully send')
+                })
+                
+            }
+
+          
+            
+           
+     
+        
+        </script>
             
 
 
