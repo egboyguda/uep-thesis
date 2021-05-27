@@ -8,25 +8,29 @@ const { isStaff, isLoggedIn } = require('../middleware');
 //dd an pag send sa barangay
 router.get('/send', isLoggedIn, isStaff, async (req, res) => {
   const barangays = await phil.getBarangayByMun('084815');
-  res.render('staff/send', { barangays });
+  const stock = await StockRecord.find({});
+  res.render('staff/send', { barangays, stock });
 });
 
 router.post('/send', isLoggedIn, isStaff, async (req, res) => {
-  const { category, destination, units, quantity } = req.body;
-  const transaction = await new Transaction({
-    name: category,
-    destination: `${destination.trim()}`,
-  });
-  transaction.quantity.units = units;
-  transaction.quantity.number = quantity;
-  console.log(transaction);
-  const stock = await StockRecord.find({
-    name: { $eq: category },
-  });
-  stock[0].quantity -= quantity;
-  await stock[0].save();
-  await transaction.save();
-  res.redirect('/staff/send');
+  const { data } = req.body;
+
+  for (i of data) {
+    for (j of i.commodityData) {
+      console.log(i.barangay);
+      console.log(j);
+      const transaction = await Transaction({
+        name: j.commodityName,
+        destination: `${i.barangay.trim()}`,
+      });
+      transaction.quantity.number = await j.quantity;
+      transaction.quantity.units = await j.units;
+      const stock = await StockRecord.find({ name: { $eq: j.commodityName } });
+      stock[0].quantity -= await j.quantity;
+      await stock[0].save();
+      await transaction.save();
+    }
+  }
 });
 // pag imud transaction
 router.get('/transaction', isLoggedIn, isStaff, async (req, res) => {

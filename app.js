@@ -79,6 +79,8 @@ app.use((req, res, next) => {
 
 const adminRoutes = require('./routes/admin');
 const staffRoutes = require('./routes/staff');
+const barangayRoutes = require('./routes/barangay');
+app.use('/barangay', barangayRoutes);
 app.use('/', adminRoutes);
 app.use('/staff', staffRoutes);
 

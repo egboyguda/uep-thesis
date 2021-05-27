@@ -45,7 +45,7 @@ router.post(
 );
 //dd pag add donator
 //mag add cya dd donation
-router.get('/', (req, res) => {
+router.get('/', isLoggedIn, (req, res) => {
   res.render('admin/dashboard');
 });
 router.get('/add', isLoggedIn, isAdminL, (req, res) => {
@@ -87,5 +87,20 @@ router.post('/add', isLoggedIn, isAdminL, async (req, res) => {
   }
   await donator.save();
   res.status(200).send('ok');
+});
+
+//dd pag view donation
+router.get('/view', async (req, res) => {
+  const commodity = await Commodity.find({}).populate({
+    path: 'donator',
+    select: ['name', 'calamity'],
+  });
+  res.render('admin/viewDonation', { commodity });
+});
+
+//dd man pag inventory
+router.get('/stock', async (req, res) => {
+  const stock = await StockRecord.find({});
+  res.render('admin/stocklist', { stock });
 });
 module.exports = router;

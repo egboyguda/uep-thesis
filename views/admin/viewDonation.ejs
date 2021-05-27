@@ -11,12 +11,12 @@
       
     </thead>
     <tbody id="tbody">
-        <% for (data of donation) {%>
+        <% for (data of commodity) {%>
     <tr>
        
-            <th><%=data.name  %> </th> 
-            <th> <%=data.itemDonation.quantity  %><%=data.itemDonation.units%> <%=data.itemDonation.name %> </th>
-            <th><%=data.calamity  %> </th>
+            <th><%=data.donator.name  %> </th> 
+            <th> <%=data.name  %> <%=data.quantity%><%=data.units %> </th>
+            <th><%=data.donator.calamity  %> </th>
             
        
     </tr>

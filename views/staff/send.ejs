@@ -3,40 +3,24 @@
 
  <div class="row">
     <h1 class="text-center">Send Goods to Barangay</h1>
-    <p class="text-center">NOTE! PAG MAG SEND KA SA BARANGAY MAIIBANAN M STOCK</p>
-    <p class="text-center">PARA MA IMUD MO KUN NA IBANAN M STOCK PAG LOG IN SAIM ADMIN ACCOUNT
-        KADTO SA INVENTORY IG CHECK KUN NAIBANAN GUD MAN AN STOCK
-        KAILANGAN LAT NA M IG SESEND AVAILABLE SAIM STOCK!!!!!!
+
     </p>
         <h1 class="text-center">Goods Information</h1>
         <div class="col-6 offset-3">
             <form action="/staff/send" method="post">
                 <div class="mb-3">
-                    <label for="category" class="form-label">Select the Goods u want to send</label>
-                    <select name="category" id="category" class="form-select">
-                        <option selected>Select Goods</option>
-                        <option name="instant noodles">instant noodles</option>
-                        <option name="noddles">noddles</option>
-                        <option name="rice">rice</option>
-                        <option name="chicken meat">chicken meat</option>
-                        <option name="beef meat">beef meat</option>
-                        <option name="pork meat">pork meat</option>
-                        <option name="coffee">coffee</option>
-                        <option name="milk">milk</option>
-                    </select>
-                    </div>
+                    <label for="commodityName" class="form-label">Select the Goods u want to send</label>
+                    <select name="category" id="commodityName" class="form-select">
+                    <option selected>Select Goods</option>
+                    <% for(data of stock){ %> 
+                       
+                        <option name="<%=data.name  %> "><%=data.name  %> </option>
+                        <% } %> 
+                    </select>          
+                    </div> 
                     <div class="mb-3">
-                        <label for="regions" class="form-label">Destination</label>
-                        <select name="destination" id="regions" class="form-select">
-                            <option selected>Open this select menu</option>
-                            <% for(barangay of barangays) {%>
-                                <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
-                                <% } %>  
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="regions" class="form-label">Units</label>
-                        <select name="units" id="regions" class="form-select">
+                        <label for="units" class="form-label">Units</label>
+                        <select name="units" id="units" class="form-select">
                             <option selected>Select Units</option>
                                 <option value="kg">Kg</option>
                                 <option name="pcs">pcs</option> 
@@ -47,9 +31,41 @@
                             <label for="quantity" class="form-label">Quantity</label>
                             <input type="number" name="quantity" id="quantity" class="form-control">
                             
-                        </div> 
+                        </div>
+                        <button type='button' class="btn btn-success" onClick='updateForm();'>add</button>
+                       <div class="mb-3">
+                        <table class="table" id='results' name='table'>
+                            <thead>
+                              <tr>
+                                <th scope="col">Commodity</th>
+                        
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Units</th>
+                              
+                            </thead>
+                            <tbody id="tbody">
+                               
+                            </tbody>
+                          </table>
+                       </div>
+                          <button type="button" class="btn btn-success" id="button1">Click to Show Barangay</button>
+                    <div class="mb-3" id="toggle" style="display: none;">
+                        <h5 >Select Barangay</h5>
+                        <button type="button" class='btn btn-success' onclick="eventCheckBox()">Select All</button>
+                        <% for(barangay of barangays) {%>
+                        <div class="form-check">
+                            <input class="form-check-input"  type="checkbox" name="barangay" value="<%=barangay.name %> " id="<%=barangay.name  %> ">
+                            <label class="form-check-label" for="<%=barangay.name  %> ">
+                              <%=barangay.name %> 
+                            </label>
+                             
+                      
+                    </div>
+                    <% } %>
+                    </div>   
+                     
 
-                        <input type="submit" value="submit" class="btn btn-success" >
+                        <input type="button" value="submit" class="btn btn-success" onclick="sendData();" >
                 </div>
               
                 
@@ -59,7 +75,82 @@
         
         
             </form>
+
         </div>
-            
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+
+class Commodity {
+                constructor(commodityName,units,quantity){
+                    this.commodityName = commodityName,
+                    this.quantity=quantity,
+                    this.units=units
+                }
+            }
+            class BarangaySend{
+                constructor(barangay,commodityData){
+                    this.barangay= barangay;
+                    this.commodityData = commodityData;
+                }
+            }
+            var button = document.getElementById('button1'); // Assumes element with id='button'
+
+                button.onclick = function() {
+    var div = document.getElementById('toggle');
+    if (div.style.display !== 'none') {
+        div.style.display = 'none';
+    }
+    else {
+        div.style.display = 'block';
+    }
+};
+function eventCheckBox() {
+  let checkboxs = document.getElementsByTagName("input");
+  for(let i = 0; i < checkboxs.length ; i++) { //zero-based array
+    checkboxs[i].checked = !checkboxs[i].checked;
+  }
+}
+var commodityData=[];
+async function updateForm(){
+               
+               var commodityName = document.getElementById('commodityName').value;
+               var units = document.getElementById('units').value;
+               var quantity = document.getElementById('quantity').value;
+               
+         
+
+              
+               var table = document.getElementById('results');
+
+                var row = table.insertRow(-1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                cell1.innerHTML = `<input type=\"text\" name=\"commodityName\" value=\"${commodityName}\" readonly=\"readonly\">`;
+                cell2.innerHTML = `<input type=\"text\" name=\"quantity\" value=\"${parseFloat(quantity)}\" readonly=\"readonly\">`;
+                cell3.innerHTML =`<input type=\"text\" name=\"units\" value=\"${units}\" readonly=\"readonly\">`;
+               commodityData.push(new Commodity(commodityName,units,quantity))
+               //table.innerHTML+="tr"
+
+               
+           };
+ async function sendData(){
+     var barangayData=[];
+            var checkboxes = document.getElementsByName('barangay')
+            var checkboxesChecked = [];
+  // loop over them all
+  for (var i=0; i<checkboxes.length; i++) {
+     // And stick the checked ones onto an array...
+     if (checkboxes[i].checked) {
+        barangayData.push(new BarangaySend(checkboxes[i].value,commodityData));
+     }
+  }
+            axios.post('/staff/send',{
+                data:barangayData,
+            })
+ }
+
+
+        </script>
 
 

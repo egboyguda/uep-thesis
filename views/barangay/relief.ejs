@@ -1,0 +1,36 @@
+<%// layout('layouts/boilerplate')%> 
+<% layout('layouts/sidebar')%> 
+    
+
+     <div class="row">
+            <h1 class="text-center">ADD RELIEF GOODS</h1>
+            <div class="col-6 offset-3">
+                <form action="/" method="post">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Relief Goods</label>
+                        <input type="text" name="name" id="name" class="form-control">
+                    </div>       
+                    <div class="mb-3">
+                        <label for="regions" class="form-label">Destination</label>
+                        <select name="destination" id="regions" class="form-select">
+                            <option selected>Open this select menu</option>
+                            <% for(barangay of barangays) {%>
+                                <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
+                                <% } %>  
+                        </select>
+                    </div>
+                   
+                    
+                    <input type="submit" value="submit" class="btn btn-success" >
+            
+            
+            
+            
+                </form>
+            </div>
+                
+
+
+
+
+        </div>
