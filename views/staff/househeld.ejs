@@ -1,0 +1,70 @@
+
+<% layout('layouts/sidebar')%> 
+
+<div class ='row'>
+<h1 class="text-center">Household Information</h1>
+    <div class="col-6 offset-3">
+        <div class="mb-3">
+            <label for="regions" class="form-label">Destination</label>
+                        <select name="destination" id="regions" class="form-select">
+                            <option selected>Open this select menu</option>
+                            <% for(barangay of barangays) {%>
+                                <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
+                                <% } %>  
+                        </select>
+        </div>
+        <input type="button" value="Find" class="btn btn-success" onClick='sendData()'>
+    </div>
+   
+
+<h1 class="text-center">List Of All Household</h1>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+
+        <th scope="col">Barangay</th>
+        <th scope="col">View QrCode</th>
+      
+    </thead>
+    <tbody id="tbody">
+
+    <tr>
+       
+            
+         
+            
+       
+    </tr>
+
+    </tbody>
+  </table>  
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+      let body = document.getElementById('tbody')
+      function sendData(){
+          console.log('click')
+          var barangay = document.getElementById('regions').value;
+            console.log(barangay)
+          axios.get(`/staff/household/${barangay}`)
+          .then((res)=>{
+              console.log(res.data)
+              return(res.data)
+              
+          }).then((res)=>{
+              let body = document.getElementById('tbody')
+              for(data of res){
+                  body.innerHTML +=`<tr>
+        <td>${data.name}</td>
+        <td>${data.barangay}</td>
+        <td><a class='btn btn-success' href='/barangay/success/${data._id}'>View</a></td>
+        </tr>`
+                  
+              }
+          })
+          
+
+      }
+
+  </script>

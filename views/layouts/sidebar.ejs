@@ -20,7 +20,7 @@
           <i class="fa fa-bars" aria-hidden="true"></i>
         </div>
         <div class="navbar__left">
-          <a class="active_link" href="#"><%if(currentUser.isAdmin){ %>Admin <% }else if(currentUser.isStaff) {%>Staff Account <%}else{%>asda<% } %> </a> 
+          <a class="active_link" href="#"><%if(currentUser.isAdmin){ %>Admin <% }else if(currentUser.isStaff) {%>Staff Account <%}else{%>Barangay<% } %> </a> 
           </div>  
           
       </nav>
@@ -66,7 +66,7 @@
           </div>
           <div class="sidebar__link">
             <i class="fa fa-wrench"></i>
-            <a href="#">Track Relief Goods(not working)</a>
+            <a href="/track">Track Relief Goods</a>
           </div>
         <% }else if(currentUser.isStaff){ %> 
           <div class="sidebar__link">
@@ -79,37 +79,38 @@
           </div>
           <div class="sidebar__link">
             <i class="fa fa-handshake-o"></i>
-            <a href="#">Household Head(not working)</a>
+            <a href="/staff/household">Household Head</a>
           </div>
-          <% } else{%> 
+          <% } else if(currentUser.isBarangay){%> 
+            <div class="sidebar__link">
+              <i class="fa fa-question"></i>
+              <a href="/barangay/add">Add Household</a>
+            </div>
+            <div class="sidebar__link">
+              <i class="fa fa-sign-out"></i>
+              <a href="/barangay/relief">Add Relief</a>
+            </div>
+            <div class="sidebar__link">
+              <i class="fa ffa fa-bus "></i>
+              <a href="/barangay/track">Scan QRCode</a>
+            </div>
+            <div class="sidebar__link">
+              <i class="fa fa-files-o"></i>
+              <a href="#">To be EDIT</a>
+            </div>
+            <h2>Settings</h2>
+            <div class="sidebar__link">
+              <i class="fa fa-money"></i>
+              <a href="#">to be edit</a>
+            </div>
+            <div class="sidebar__link">
+              <i class="fa fa-briefcase"></i>
+              <a href="#">to be edit</a>
+            </div>
           
           <% }%> 
           <h2>Dashboard Stats</h2>
-          <div class="sidebar__link">
-            <i class="fa fa-question"></i>
-            <a href="#">To be EDIT</a>
-          </div>
-          <div class="sidebar__link">
-            <i class="fa fa-sign-out"></i>
-            <a href="#">To be EDIT</a>
-          </div>
-          <div class="sidebar__link">
-            <i class="fa ffa fa-bus "></i>
-            <a href="#">To be EDIT</a>
-          </div>
-          <div class="sidebar__link">
-            <i class="fa fa-files-o"></i>
-            <a href="#">To be EDIT</a>
-          </div>
-          <h2>Settings</h2>
-          <div class="sidebar__link">
-            <i class="fa fa-money"></i>
-            <a href="#">to be edit</a>
-          </div>
-          <div class="sidebar__link">
-            <i class="fa fa-briefcase"></i>
-            <a href="#">to be edit</a>
-          </div>
+          
           <div class="sidebar__logout">
             <i class="fa fa-power-off"></i>
             <a href="/logout">Log out</a>

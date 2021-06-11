@@ -21,3 +21,11 @@ module.exports.isStaff = async (req, res, next) => {
   }
   next();
 };
+
+module.exports.isBarangay = async (req, res, next) => {
+  if (!req.user.isBarangay) {
+    await res.send('your not authorize to enter');
+    //res.redirect('/login');
+  }
+  next();
+};

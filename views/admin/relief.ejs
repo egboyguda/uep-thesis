@@ -1,0 +1,46 @@
+<% layout('layouts/sidebar')%> 
+<div class='row'>
+    <h1 class="text-center">Track Relief</h1>
+    <div class="col-6 offset-3">
+        <label for="goods" class="form-label">Relief Goods</label>
+        <input type="text" name='<%=id%>' id="goods" class='form-control' value="<%=relief.name%> ">
+        <label for="name" class="form-label">Tracking Number</label>
+        <input type="text" name='<%=id%>' id="name" class='form-control' value="<%= id%> ">
+        <label for="choice" class="form-label">Select Option</label>
+        <select name="choice" id="choice" class='form-select'>
+            <option value="receive">received</option>
+            <option value="not-recevie">not receive</option>
+        </select>
+        <button class="btn btn-success" onclick="getData();">Submit</button>
+        <div>
+            <h1>List</h1>
+            <table class="table" id='results' name='table'>
+                <thead>
+                  <tr>
+                    <th scope="col" class="text-center">Name</th>
+            
+                   
+                    <th scope="col" class="text-center">Status</th>
+                    
+              
+                   
+                  
+                </thead>
+                <tbody id="tbody">
+                   
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    function getData(){
+        var id = document.getElementById('name').value;
+        var choice = document.getElementById('choice').value
+        axios.get(`/track/relief?id=${id.trim()}&option=${choice}`)
+        .then((res)=>{
+            console.log(res);
+        })
+    }
+</script>

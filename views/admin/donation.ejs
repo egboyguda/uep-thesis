@@ -115,6 +115,9 @@
             async function sendData(){
                 var name = document.getElementById('name').value;
                 var calamity = document.getElementById('calamity').value;
+                var row = table.insertRow(-1);
+                 var cell1 = row.insertCell(0);
+                 var cell2 = row.insertCell(1);
                 axios.post('/add',{
                     name: name,
                     calamity:calamity,

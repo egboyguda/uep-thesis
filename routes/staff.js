@@ -3,6 +3,7 @@ const router = express.Router({ mergeParams: true });
 const phil = require('phil-reg-prov-mun-brgy');
 const Transaction = require('../models/transaction');
 const StockRecord = require('../models/stockRecord');
+const Person = require('../models/person');
 const { isStaff, isLoggedIn } = require('../middleware');
 
 //dd an pag send sa barangay
@@ -31,6 +32,22 @@ router.post('/send', isLoggedIn, isStaff, async (req, res) => {
       await transaction.save();
     }
   }
+});
+
+//dd pag imud household
+router.get('/household', async (req, res) => {
+  const barangays = await phil.getBarangayByMun('084815');
+  res.render('staff/househeld', { barangays });
+});
+router.get('/household/:barangay', async (req, res) => {
+  const { barangay } = req.params;
+  console.log(barangay);
+  const person = await Person.find({
+    barangay: {
+      $eq: barangay,
+    },
+  });
+  res.send(person);
 });
 // pag imud transaction
 router.get('/transaction', isLoggedIn, isStaff, async (req, res) => {

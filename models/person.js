@@ -6,6 +6,7 @@ const personSchema = new Schema({
     type: String,
   },
   barangay: {
+    type: String,
     enum: [
       'Cababto-an',
       'Cabari-an',

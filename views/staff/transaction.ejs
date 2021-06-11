@@ -15,9 +15,9 @@
         <% for (data of transaction) {%>
     <tr>
        
-            <th><%=data.name %> </th> 
-            <th><%= data.destination  %> </th>
-            <th> <%=data.quantity.number  %><%=data.quantity.units%> </th>
+            <th scope="col"><%=data.name %> </th> 
+            <th scope="col"><%= data.destination  %> </th>
+            <th scope="col"> <%=data.quantity.number  %><%=data.quantity.units%> </th>
             
        
     </tr>

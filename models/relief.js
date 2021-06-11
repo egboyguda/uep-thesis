@@ -36,7 +36,12 @@ const reliefSchema = new Schema({
       'Tula',
     ],
   },
-
+  isCompleted: {
+    type: Boolean,
+  },
+  number: {
+    type: Number,
+  },
   accepted: {
     type: Schema.Types.ObjectId,
     ref: 'Person',

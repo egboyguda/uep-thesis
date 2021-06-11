@@ -10,12 +10,13 @@ const { render } = require('ejs');
 const { isAdminL, isLoggedIn } = require('../middleware');
 const User = require('../models/user');
 const { find } = require('../models/donationModel');
+const Relief = require('../models/relief');
 
-// router.get('/fake', async (req, res) => {
-//   const user = new User({ username: 'test2', isStaff: true });
-//   await User.register(user, 'test2');
-//   res.redirect('/login');
-// });
+router.get('/fake', async (req, res) => {
+  const user = new User({ username: 'test3', isBarangay: true });
+  await User.register(user, 'test3');
+  res.redirect('/login');
+});
 
 router.get('/logout', (req, res) => {
   req.logOut();
@@ -103,4 +104,37 @@ router.get('/stock', async (req, res) => {
   const stock = await StockRecord.find({});
   res.render('admin/stocklist', { stock });
 });
+
+//dd pag track sa relief
+router.get('/track', async (req, res) => {
+  const barangays = await phil.getBarangayByMun('084815');
+  res.render('admin/track', { barangays });
+});
+router.get('/track/relief', async (req, res) => {
+  const { id, option } = req.query;
+  console.log(req.query);
+  const relief = await Relief.findById(id);
+  res.send(relief);
+});
+//dd
+router.get('/track/:barangay', async (req, res) => {
+  const barangay = req.params.barangay;
+  const data = await Relief.find({
+    barangay: {
+      $eq: barangay,
+    },
+  });
+  console.log('dis');
+  res.send(data);
+});
+
+//dd man pag imud kun pera na an tawo na nakakarawat
+
+router.get('/track/relief/:id', async (req, res) => {
+  const { id } = req.params;
+  const relief = await Relief.findById(id);
+  console.log('called');
+  res.render('admin/relief', { id, relief });
+});
+
 module.exports = router;

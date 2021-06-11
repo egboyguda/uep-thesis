@@ -33,6 +33,21 @@
                             
                         </div>
                         <button type='button' class="btn btn-success" onClick='updateForm();'>add</button>
+                        <button type="button" class="btn btn-success" id="button1">Click to Show Barangay</button>
+                        <div class="mb-3" id="toggle" style="display: none;">
+                            <h5 >Select Barangay</h5>
+                            <button type="button" class='btn btn-success' onclick="eventCheckBox()">Select All</button>
+                            <% for(barangay of barangays) {%>
+                            <div class="form-check">
+                                <input class="form-check-input"  type="checkbox" name="barangay" value="<%=barangay.name %> " id="<%=barangay.name  %> ">
+                                <label class="form-check-label" for="<%=barangay.name  %> ">
+                                  <%=barangay.name %> 
+                                </label>
+                                 
+                          
+                        </div>
+                        <% } %>
+                        </div>   
                        <div class="mb-3">
                         <table class="table" id='results' name='table'>
                             <thead>
@@ -48,21 +63,7 @@
                             </tbody>
                           </table>
                        </div>
-                          <button type="button" class="btn btn-success" id="button1">Click to Show Barangay</button>
-                    <div class="mb-3" id="toggle" style="display: none;">
-                        <h5 >Select Barangay</h5>
-                        <button type="button" class='btn btn-success' onclick="eventCheckBox()">Select All</button>
-                        <% for(barangay of barangays) {%>
-                        <div class="form-check">
-                            <input class="form-check-input"  type="checkbox" name="barangay" value="<%=barangay.name %> " id="<%=barangay.name  %> ">
-                            <label class="form-check-label" for="<%=barangay.name  %> ">
-                              <%=barangay.name %> 
-                            </label>
-                             
-                      
-                    </div>
-                    <% } %>
-                    </div>   
+                       
                      
 
                         <input type="button" value="submit" class="btn btn-success" onclick="sendData();" >
