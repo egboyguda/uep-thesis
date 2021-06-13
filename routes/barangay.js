@@ -26,7 +26,7 @@ router.post('/add', isLoggedIn, isBarangay, async (req, res) => {
   res.send(user._id);
 });
 
-router.get('/track', async (req, res) => {
+router.get('/track', isLoggedIn, async (req, res) => {
   if (typeof req.query.barangay === 'undefined') {
     const barangays = await phil.getBarangayByMun('084815');
     res.render('barangay/track', { barangays });
@@ -35,9 +35,18 @@ router.get('/track', async (req, res) => {
   const { barangay } = req.query;
   console.log(barangay);
   const relief = await Relief.find({
-    barangay: {
-      $eq: `${barangay.trim()}`,
-    },
+    $and: [
+      {
+        barangay: {
+          $eq: `${barangay.trim()}`,
+        },
+      },
+      {
+        isCompleted: {
+          $ne: true,
+        },
+      },
+    ],
   });
   res.send(relief);
 });
@@ -72,7 +81,7 @@ router.post('/relief', isLoggedIn, isBarangay, async (req, res) => {
     number: person.length,
   });
   await relief.save();
-  res.send('ok');
+  res.redirect('/barangay/relief');
 });
 
 //dd man pag scan sa qrcode sa tawo
@@ -83,6 +92,23 @@ router.get('/qrscan/:id', async (req, res) => {
 });
 router.post('/qrscan/:id', async (req, res) => {
   console.log(req.body);
+  const { person } = req.body;
+  const { id } = req.params;
+  const relief = await Relief.findById(id);
+  const user = await Person.findById(person);
+
+  console.log(person);
+  if (user.barangay === relief.barangay) {
+    await relief.accepted.push(user);
+    console.log(relief.accepted);
+    console.log(relief.accepted.length);
+    if (relief.number === relief.accepted.length) {
+      relief.isCompleted = await true;
+    }
+    relief.save();
+    res.send(relief);
+    return;
+  }
   res.send('ok');
 });
 module.exports = router;

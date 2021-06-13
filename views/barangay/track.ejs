@@ -34,25 +34,34 @@
     </div>
     
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+  var table =document.getElementById('results')
+  var orig = table.innerHTML
+    //table.innerHTML='';
+        
+    
   function getData(){
     
-    var table =document.getElementById('results')
-    table.innerHTML='';
-    var row = table.insertRow(-1);
-    var cell1 = row.insertCell(0);
-    var cell2 = row.insertCell(1);
+
       var barangay= document.getElementById('barangay').value;
       axios.get(`/barangay/track?barangay=${barangay}`)
       .then((res)=>{
+        table.innerHTML = orig
         console.log(res.data)
+      
+              
         for(data of res.data){
+          var row = table.insertRow(-1);
+          var cell1 = row.insertCell(0);
+          var cell2 = row.insertCell(1);
           console.log(data)
 
           cell1.innerHTML = `<input type=\"text\" name=\"commodityName\" value=\"${data.name}\" readonly=\"readonly\">`;
           cell2.innerHTML = `<a href="/barangay/qrscan/${data._id}" class='btn btn-success'>Select </a>`;
           
         }
+       
       })}
 </script>

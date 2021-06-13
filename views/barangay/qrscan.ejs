@@ -28,6 +28,7 @@ function sendData(data){
   axios.post('/barangay/qrscan/<%=id%>',{
     person:data
   }).then((res)=>{
+    alert('successfully scan')
     console.log(res.data)
   })
 }

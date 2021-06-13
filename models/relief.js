@@ -42,10 +42,12 @@ const reliefSchema = new Schema({
   number: {
     type: Number,
   },
-  accepted: {
-    type: Schema.Types.ObjectId,
-    ref: 'Person',
-  },
+  accepted: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Person',
+    },
+  ],
 });
 const Relief = mongoose.model('Relief', reliefSchema);
 module.exports = Relief;

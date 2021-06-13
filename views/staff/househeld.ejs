@@ -18,11 +18,10 @@
    
 
 <h1 class="text-center">List Of All Household</h1>
-<table class="table">
+<table class="display" id='results' style="width:90%">
     <thead>
       <tr>
         <th scope="col">Name</th>
-
         <th scope="col">Barangay</th>
         <th scope="col">View QrCode</th>
       
@@ -40,6 +39,11 @@
     </tbody>
   </table>  
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
       let body = document.getElementById('tbody')
@@ -49,6 +53,7 @@
             console.log(barangay)
           axios.get(`/staff/household/${barangay}`)
           .then((res)=>{
+          
               console.log(res.data)
               return(res.data)
               
@@ -62,6 +67,12 @@
         </tr>`
                   
               }
+          }).then(()=>{
+            $(document).ready(function() {
+    $('#results').DataTable({
+        "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+    });
+        } );    
           })
           
 
