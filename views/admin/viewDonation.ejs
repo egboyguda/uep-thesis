@@ -2,24 +2,69 @@
 <% layout('layouts/sidebar')%> 
 
 <h1 class="text-center">List Of All Donation</h1>
-<table class="table">
+<table id="example"  class="display" style="width:100%">
     <thead>
       <tr>
-        <th scope="col">Donator</th>
-        <th scope="col">Donated</th>
-        <th scope="col">Calamity</th>
+        <th >Donator</th>
+        <th >Donated</th>
+        <th>Quantity</th>
+        <th >Calamity</th>
       
     </thead>
-    <tbody id="tbody">
-        <% for (data of commodity) {%>
-    <tr>
-       
-            <th><%=data.donator.name  %> </th> 
-            <th> <%=data.name  %> <%=data.quantity%><%=data.units %> </th>
-            <th><%=data.donator.calamity  %> </th>
-            
-       
-    </tr>
-    <% } %>
-    </tbody>
+
   </table>
+  
+
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+     $(document).ready(function(){
+       axios.get('/api/commodity')
+       .then((res)=>{
+         console.log(res.data)
+         $('#example').DataTable({
+           data:res.data,
+           dom:'Bfrtip',
+           'columns':[
+             {'data':'donator.name'},
+             {'data':'name'},
+             {'data':null,
+              "bSortable":false,
+              'mRender':function(o){
+                return '<span>'+o.quantity+" "+" "+o.units+'</span>'
+              }
+             },
+             {
+              'data':'donator.calamity'
+             }
+           ],
+           buttons: [
+            {
+                extend: 'pdfHtml5', 
+              
+                download: 'open',
+
+                customize: function ( doc ) {
+doc.content[1].table.widths = [
+'25%',
+'25%',
+'25%',
+'25%',
+'10%',
+'10%',
+'5%'
+]
+}
+            }
+        ]
+         })
+       })
+     })
+   </script>
+ 

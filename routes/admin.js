@@ -11,6 +11,7 @@ const { isAdminL, isLoggedIn } = require('../middleware');
 const User = require('../models/user');
 const { find } = require('../models/donationModel');
 const Relief = require('../models/relief');
+const Person = require('../models/person');
 
 router.get('/fake', async (req, res) => {
   const user = new User({ username: 'test3', isBarangay: true });
@@ -98,6 +99,14 @@ router.get('/view', async (req, res) => {
   });
   res.render('admin/viewDonation', { commodity });
 });
+//api pag get commodity
+router.get('/api/commodity', async (req, res) => {
+  const commodity = await Commodity.find({}).populate({
+    path: 'donator',
+    select: ['name', 'calamity'],
+  });
+  res.send(commodity);
+});
 
 //dd man pag inventory
 router.get('/stock', async (req, res) => {
@@ -112,20 +121,36 @@ router.get('/track', async (req, res) => {
 });
 router.get('/track/relief', async (req, res) => {
   const { id, option } = req.query;
-  console.log(req.query);
-  const relief = await Relief.findById(id);
-  res.send(relief);
+  if (option === 'receive') {
+    console.log(req.query);
+    res.send('receive');
+    return;
+  }
+  const person = await Person.find({
+    relief: { $elemMatch: { relief: { id: { $ne: id } } } },
+  });
+  console.log(person);
+  res.send(person);
 });
 //dd
 router.get('/track/:barangay', async (req, res) => {
   const barangay = req.params.barangay;
   const data = await Relief.find({
-    barangay: {
-      $eq: barangay,
-    },
+    $and: [
+      {
+        barangay: {
+          $eq: `${barangay.trim()}`,
+        },
+      },
+      {
+        isCompleted: {
+          $ne: true,
+        },
+      },
+    ],
   });
-  console.log('dis');
   res.send(data);
+  console.log('dis');
 });
 
 //dd man pag imud kun pera na an tawo na nakakarawat

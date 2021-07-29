@@ -35,10 +35,14 @@ const personSchema = new Schema({
       'Tula',
     ],
   },
-  relief: {
-    type: Schema.Types.ObjectId,
-    ref: 'Relief',
-  },
+  relief: [
+    {
+      relief: {
+        type: Schema.Types.ObjectId,
+        ref: 'Relief',
+      },
+    },
+  ],
 });
 
 const Person = mongoose.model('Person', personSchema);

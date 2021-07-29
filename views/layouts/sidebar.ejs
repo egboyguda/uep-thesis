@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
     <link
     
       rel="stylesheet"
@@ -71,6 +71,10 @@
             <i class="fa fa-wrench"></i>
             <a href="/track">Track Relief Goods</a>
           </div>
+          <div class="sidebar__link">
+            <i class="fa fa-handshake-o"></i>
+            <a href="/staff/household">Household</a>
+          </div>
         <% }else if(currentUser.isStaff){ %> 
           <div class="sidebar__link">
             <i class="fa fa-handshake-o"></i>
@@ -84,6 +88,7 @@
             <i class="fa fa-handshake-o"></i>
             <a href="/staff/household">Household Head</a>
           </div>
+          
           <% } else if(currentUser.isBarangay){%> 
             <div class="sidebar__link">
               <i class="fa fa-question"></i>

@@ -37,7 +37,7 @@ router.post('/send', isLoggedIn, isStaff, async (req, res) => {
 //dd pag imud household
 router.get('/household', async (req, res) => {
   const barangays = await phil.getBarangayByMun('084815');
-  res.render('staff/househeld', { barangays });
+  res.render('staff/datatable', { barangays });
 });
 router.get('/household/:barangay', async (req, res) => {
   const { barangay } = req.params;
@@ -53,6 +53,12 @@ router.get('/household/:barangay', async (req, res) => {
 router.get('/transaction', isLoggedIn, isStaff, async (req, res) => {
   const transaction = await Transaction.find({});
   res.render('staff/transaction', { transaction });
+});
+
+//data table test
+router.get('/data', isLoggedIn, async (req, res) => {
+  const barangays = await phil.getBarangayByMun('084815');
+  res.render('staff/datatable', { barangays });
 });
 //dd pag imud tanan na household
 module.exports = router;

@@ -105,7 +105,10 @@ router.post('/qrscan/:id', async (req, res) => {
     if (relief.number === relief.accepted.length) {
       relief.isCompleted = await true;
     }
-    relief.save();
+    await user.relief.push(relief);
+    await user.populate(relief.relief);
+    await user.save();
+    await relief.save();
     res.send(relief);
     return;
   }
