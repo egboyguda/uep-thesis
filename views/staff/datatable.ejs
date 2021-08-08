@@ -22,18 +22,18 @@
   
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          ...
+        <div class="modal-body" id="modal-body">
+            
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+   
         </div>
       </div>
     </div>
@@ -46,7 +46,7 @@
 	    <tr>
             <th>name</th>
             <th>barangay</th>
-            <th>Edit</th>
+            <th>Information</th>
          
 	    </tr>
     </thead>
@@ -78,7 +78,7 @@
                         {
                             "data":null,
                             "bSortable": false,
-                            "mRender": function (o) { return '<a href=/barangay/success/' + o._id + '>' + 'Edit' + '</a>'; }
+                            "mRender": function (o) { return `<button class='btn btn-success' onclick=getInfo("${o._id}");>` +'view'+'</button>'; }
                         }
             
     				],
@@ -110,4 +110,55 @@ doc.content[1].table.widths = [
     			 });
         })
     }
+
+function getInfo(data){
+  var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+  var modelBody= document.getElementById('modal-body')
+  axios.get(`/barangay/info/${data}`)
+  .then((res)=>{
+    console.log(res.data)
+    data = res.data.person,
+    imag= res.data.src
+
+    modelBody.innerHTML =`<div class=\"container\">
+                <div class=\"row align-items-start\">
+                  <div class=\"col-5\">
+                    <div class=\"d-flex flex-column\">
+                      <img src=\"${res.data.src}\" alt=\"\">
+                      <a href="${res.data.src}" download class=\"btn btn-success">Download</a>
+                    </div>
+                  </div>
+                  <div class=\"col-6\">
+                    <div class=\"mb-3\">
+                      <label for=\"name\" class=\"form-label\">Name</label>
+                      <input type=\"text\" name=\"name\" id=\"name\" class=\"form-control\" value=\"${data.name.toUpperCase()}\" readonly=\'readonly\'>
+                      <label for=\"barangay\" class=\"form-label\">Barangay</label>
+                      <input typ
+                      +e=\"text\" name=\"barangay\" id=\"barangay\" class=\"form-control\" value=\"${data.barangay}\" readonly=\'readonly\'>
+                      <label for=\"sector\" class=\"form-label\">Sector</label>
+                      <input type=\"text\" name=\"sector\" id=\"sector\" class=\"form-control\" value=\"${data.sector}\" readonly=\'readonly\'>
+                      <label for=\"beneficiary\" class=\"form-label\">Beneficiary</label>
+                      <input type=\"text\" name=\"beneficiary\" id=\"beneficiary\" class=\"form-control\" value=\"${data.beneficiary}\" readonly=\'readonly\'>
+                      <label for=\"contactNumber\" class=\"form-label\">Contact Number</label>
+                      <input type=\"text\" name=\"contactNumber\" id="contactNumber\" class=\"form-control\" value=\"${data.contactNumber}\" readonly=\'readonly\'>
+                      <label for=\"occupation\" class=\"form-label\">Occupation</label>
+                      <input type=\"text\" name=\"occupation\" id=\"occupation\" class=\"form-control\" value=\"${data.occupation}\" readonly=\'readonly\'>
+                      <label for=\"income\" class=\"form-label\">Income</label>
+                      <input type=\"text\" name=\"income\" id=\"income\" class=\"form-control\" value=\"${data.income}\" readonly=\'readonly\'>
+                      <label for=\"workplace\" class=\"form-label\">Workplace</label>
+                      <input type=\"text\" name=\"workplace\" id=\"workplace\" class=\"form-control\" value=\"${data.workplace}\" readonly=\'readonly\'>
+                      <label for=\"civilStatus\" class=\"form-label\">Civil Status</label>
+                      <input type=\"text\" name=\"civilStatus\" id=\"civilStatus\" class=\"form-control\" value=\"${data.civilStatus}\" readonly=\'readonly\'>
+                      <label for=\"education\" class=\"form-label\">Education</label>
+                      <input type=\"text\" name=\"workplace\" id=\"workplace\" class=\"form-control\" value=\"${data.education}\" readonly=\'readonly\'>
+                      <label for=\"health\" class=\"form-label\">Health</label>
+                      <input type=\"text\" name=\"health\" id=\"health\" class=\"form-control\" value=\"${data.health}\" readonly=\'readonly\'>
+                  </div>  
+                  </div>
+                </div>
+            </div>`
+    myModal.show()
+  })
+
+}
 </script>

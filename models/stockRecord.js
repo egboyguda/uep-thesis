@@ -13,6 +13,9 @@ const stockRecordSchema = new Schema({
   quantity: {
     type: Number,
   },
+  expiration: {
+    type: Date,
+  },
 });
 
 const StockRecord = mongoose.model('StockRecord', stockRecordSchema);

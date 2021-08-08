@@ -29,7 +29,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   console.log('DATABASE IS CONNECTED');
 });
-
 const sessionConfig = {
   secret: process.env.SESSION_SECRET,
   resave: false,

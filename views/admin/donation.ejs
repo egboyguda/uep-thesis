@@ -45,6 +45,11 @@
                             <input type="number"  id="quantity" class="form-control">
                             
                         </div> 
+                        <div class="mb-3">
+                            <label for="exp-date" class="form-label">Expiration Date</label>
+                            <input type="date"  id="exp-date" class="form-control">
+                            
+                        </div> 
 
                         
                         <button type='button' class="btn btn-success" onClick='updateForm();'>add</button>
@@ -58,14 +63,14 @@
                 
                         <th scope="col">Quantity</th>
                         <th scope="col">Units</th>
-                      
+                        <th scope="col">Expiration</th>
                     </thead>
                     <tbody id="tbody">
                        
                     </tbody>
                   </table>
                 
-                  <input type="submit" value="submit" class="btn btn-success">
+              
                 </div>
                 
         
@@ -80,10 +85,11 @@
         <script>
         
             class Commodity {
-                constructor(commodityName,units,quantity){
+                constructor(commodityName,units,quantity,expiration){
                     this.commodityName = commodityName,
                     this.quantity=quantity,
                     this.units=units
+                    this.expiration=expiration
                 }
             }
            
@@ -93,6 +99,7 @@
                 var commodityName = document.getElementById('commodityName').value;
                 var units = document.getElementById('units').value;
                 var quantity = document.getElementById('quantity').value;
+                var expiration = document.getElementById('exp-date').value;
                 
           
 
@@ -103,16 +110,19 @@
                  var cell1 = row.insertCell(0);
                  var cell2 = row.insertCell(1);
                  var cell3 = row.insertCell(2);
+                 var cell4 = row.insertCell(3);
                  cell1.innerHTML = `<input type=\"text\" name=\"commodityName\" value=\"${commodityName}\" readonly=\"readonly\">`;
                  cell2.innerHTML = `<input type=\"text\" name=\"quantity\" value=\"${parseFloat(quantity)}\" readonly=\"readonly\">`;
                  cell3.innerHTML =`<input type=\"text\" name=\"units\" value=\"${units}\" readonly=\"readonly\">`;
-                data.push(new Commodity(commodityName,units,quantity))
+                 cell4.innerHTML =`<input type=\"text\" name=\"exp-data\" value=\"${expiration}\" readonly=\"readonly\">`;
+                data.push(new Commodity(commodityName,units,quantity,expiration))
                 //table.innerHTML+="tr"
 
                 
             };
 
             async function sendData(){
+                var table = document.getElementById('results');
                 var name = document.getElementById('name').value;
                 var calamity = document.getElementById('calamity').value;
                 var row = table.insertRow(-1);
@@ -125,6 +135,7 @@
                 }).then(()=>{
                     console.log('ok')
                     alert('successfully send')
+                    window.location('/add')
                 })
                 
             }

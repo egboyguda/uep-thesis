@@ -8,39 +8,77 @@
         <input type="text" name='<%=id%>' id="name" class='form-control' value="<%= id%> ">
         <label for="choice" class="form-label">Select Option</label>
         <select name="choice" id="choice" class='form-select'>
-            <option value="receive">received</option>
-            <option value="not-recevie">not receive</option>
+            <option value="received">received</option>
+            <option value="not-receive">not receive</option>
         </select>
-        <button class="btn btn-success" onclick="getData();">Submit</button>
+        <button class="btn btn-success" onClick="getData();">Submit</button>
         <div>
             <h1>List</h1>
-            <table class="table" id='results' name='table'>
+            <table class="display" id="example" style="width: 100%">
                 <thead>
                   <tr>
-                    <th scope="col" class="text-center">Name</th>
+                    <th class="text-center">Name</th>
             
                    
-                    <th scope="col" class="text-center">Status</th>
-                    
-              
-                   
-                  
+                    <th  class="text-center">Status</th>
+                    </tr>
                 </thead>
-                <tbody id="tbody">
-                   
-                </tbody>
+                
               </table>
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    function getData(){
+    async function getData(){
+        await $('#example').DataTable().clear().destroy();
         var id = document.getElementById('name').value;
         var choice = document.getElementById('choice').value
         axios.get(`/track/relief?id=${id.trim()}&option=${choice}`)
         .then((res)=>{
-            console.log(res);
+            console.log(res.data)
+            $('#example').DataTable({
+                data:res.data,
+                dom:'Bfrtip',
+                "columns":[
+                    {"data":"name"},
+                    {"data":null,
+                    "bSortable":false,
+                    "mRender":function(o){ 
+                    
+                        return `<span class="btn btn-success text-center">${choice}</span>`
+                    }
+                },
+                    
+                ],
+                buttons: [
+            {
+                extend: 'pdfHtml5', 
+                exportOptions: {
+                    columns: [ 0, 1 ]
+                },
+                download: 'open',
+
+               customize: function ( doc ) {
+doc.content[1].table.widths = [
+'50%',
+'50%',
+'50%',
+'50%',
+'10%',
+'10%',
+'5%'
+]
+}
+            }
+        ]
+            })
         })
     }
 </script>

@@ -7,18 +7,39 @@ const { isBarangay, isLoggedIn } = require('../middleware');
 const Relief = require('../models/relief');
 
 //dd pag add housheal
-router.get('/add', isLoggedIn, isBarangay, async (req, res) => {
+router.get('/add', isLoggedIn, async (req, res) => {
   const barangays = await phil.getBarangayByMun('084815');
   res.render('barangay/househeld', { barangays });
 });
 
-router.post('/add', isLoggedIn, isBarangay, async (req, res) => {
-  const { name, barangay } = req.body;
+router.post('/add', isLoggedIn, async (req, res) => {
+  const {
+    name,
+    barangay,
+    beneficiary,
+    contactNumber,
+    occupation,
+    income,
+    workplace,
+    civilStatus,
+    sector,
+    education,
+    health,
+  } = req.body;
   console.log(req.body);
   console.log(`${barangay.trim()}`);
   const user = await new Person({
     name: name,
     barangay: `${barangay.trim()}`,
+    sector: sector,
+    beneficiary: beneficiary,
+    contactNumber: contactNumber,
+    occupation: occupation,
+    income: income,
+    workplace: workplace,
+    civilStatus: civilStatus,
+    education: education,
+    health: health,
   });
   console.log(user);
   await user.save();
@@ -83,7 +104,16 @@ router.post('/relief', isLoggedIn, isBarangay, async (req, res) => {
   await relief.save();
   res.redirect('/barangay/relief');
 });
-
+//dd pag imud sa info sa househeald
+router.get('/info/:id', async (req, res) => {
+  const { id } = req.params;
+  const person = await Person.findById(id);
+  qr.toDataURL(`${id}`, { version: 5 }, (err, src) => {
+    if (err) res.send('error');
+    res.send({ person: person, src: src });
+  });
+  //res.send(person);
+});
 //dd man pag scan sa qrcode sa tawo
 
 router.get('/qrscan/:id', async (req, res) => {
@@ -106,11 +136,11 @@ router.post('/qrscan/:id', async (req, res) => {
       relief.isCompleted = await true;
     }
     await user.relief.push(relief);
-    await user.populate(relief.relief);
+    //await user.populate(relief.relief);
     await user.save();
     await relief.save();
     res.send(relief);
-    return;
+    //return;
   }
   res.send('ok');
 });

@@ -38,9 +38,9 @@ router.post(
     //req.flash('success', 'log in successful');
     //const redirectUrl = req.session.returnTo || '/admin' || '/barangay';
     //delete req.session.returnTo;
-    // if (await req.user.isBarangay) {
-    //   res.redirect('/');
-    // }
+    if (await req.user.isBarangay) {
+      res.redirect('/barangay/add');
+    }
     res.redirect('/');
     //res.redirect(redirectUrl);
   }
@@ -48,13 +48,13 @@ router.post(
 //dd pag add donator
 //mag add cya dd donation
 router.get('/', isLoggedIn, (req, res) => {
-  res.render('admin/dashboard');
+  res.redirect('/add');
 });
-router.get('/add', isLoggedIn, isAdminL, (req, res) => {
+router.get('/add', isLoggedIn, (req, res) => {
   res.render('admin/donation');
 });
-router.post('/add', isLoggedIn, isAdminL, async (req, res) => {
-  const { name, calamity, commodity } = req.body;
+router.post('/add', isLoggedIn, async (req, res) => {
+  const { name, calamity, commodity, expiration } = req.body;
   const donator = await Donation({ name: name, calamity: calamity });
 
   for (const e of commodity) {
@@ -62,12 +62,13 @@ router.post('/add', isLoggedIn, isAdminL, async (req, res) => {
       name: e.commodityName,
       units: e.units,
       quantity: e.quantity,
+      expiration: e.expiration,
     });
     data.donator = donator;
     await data.save();
     const stock = await StockRecord.find({
-      name: {
-        $eq: e.commodityName,
+      expiration: {
+        $eq: e.expiration,
       },
     });
     //console.log(stock);
@@ -77,6 +78,7 @@ router.post('/add', isLoggedIn, isAdminL, async (req, res) => {
         name: e.commodityName,
         units: e.units,
         quantity: parseFloat(e.quantity),
+        expiration: e.expiration,
       });
       await record.save();
       console.log(record);
@@ -114,25 +116,43 @@ router.get('/stock', async (req, res) => {
   res.render('admin/stocklist', { stock });
 });
 
+// api sa inventory
+router.get('/api/stock', async (req, res) => {
+  const stock = await StockRecord.find({});
+  res.send(stock);
+});
 //dd pag track sa relief
 router.get('/track', async (req, res) => {
   const barangays = await phil.getBarangayByMun('084815');
   res.render('admin/track', { barangays });
 });
+
+//dd pag kuwa sa mga user na naka recieve tas wa paka rcv
 router.get('/track/relief', async (req, res) => {
   const { id, option } = req.query;
-  if (option === 'receive') {
+  if (option === 'received') {
     console.log(req.query);
-    res.send('receive');
+    const relief = await Relief.findById(id).populate({
+      path: 'accepted',
+      select: ['name', 'barangay'],
+    });
+    res.send(relief.accepted);
     return;
   }
+  const relief = await Relief.findById(id);
   const person = await Person.find({
-    relief: { $elemMatch: { relief: { id: { $ne: id } } } },
+    $and: [
+      {
+        relief: { $nin: id },
+      },
+      {
+        barangay: { $eq: relief.barangay },
+      },
+    ],
   });
-  console.log(person);
   res.send(person);
 });
-//dd
+//dd pag kuwa kun cn o wara pakakuwa relief
 router.get('/track/:barangay', async (req, res) => {
   const barangay = req.params.barangay;
   const data = await Relief.find({

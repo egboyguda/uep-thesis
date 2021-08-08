@@ -10,6 +10,7 @@ const { isStaff, isLoggedIn } = require('../middleware');
 router.get('/send', isLoggedIn, isStaff, async (req, res) => {
   const barangays = await phil.getBarangayByMun('084815');
   const stock = await StockRecord.find({});
+
   res.render('staff/send', { barangays, stock });
 });
 

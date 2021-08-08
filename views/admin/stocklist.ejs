@@ -2,24 +2,74 @@
 <% layout('layouts/sidebar')%> 
 
 <h1 class="text-center">List Of All Stock</h1>
-<table class="table">
+<table  id ="example" class="display" style="width:100%">
     <thead>
       <tr>
-        <th scope="col">Commodity</th>
+        <th >Commodity</th>
 
-        <th scope="col">Stock Available</th>
-      
+        <th >Stock Available</th>
+        <th>Expiration</th>
+      </tr>
     </thead>
-    <tbody id="tbody">
-        <% for (data of stock) {%>
-    <tr>
-       
-            <th><%=data.name %> </th> 
-        
-            <th> <%=data.quantity  %><%=data.units%> </th>
-            
-       
-    </tr>
-    <% } %>
-    </tbody>
+    
   </table>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      function getFormattedDate(date) {
+    let year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+  
+    return month + '/' + day + '/' + year;
+}
+      $(document).ready(function(){
+        axios.get('/api/stock')
+        .then((res)=>{
+          console.log(res.data)
+          $('#example').DataTable({
+            data:res.data,
+            dom:'Bfrtip',
+            'columns':[
+              {'data':'name'},
+              {'data':null,
+              "bSortable":false,
+              'mRender':function(o){
+                return '<span>'+o.quantity+" "+o.units+'</span>'
+              }
+            },{
+              'data':null,
+              "bSortable":false,
+              "mRender":function(o){
+                return '<span>'+ getFormattedDate(new Date(o.expiration))+'</span>'
+              }
+            }
+            ],
+            buttons: [
+            {
+                extend: 'pdfHtml5', 
+              
+                download: 'open',
+
+                customize: function ( doc ) {
+doc.content[1].table.widths = [
+'25%',
+'25%',
+'25%',
+'25%',
+'10%',
+'10%',
+'5%'
+]
+}
+            }
+        ]
+          })
+        })
+      })
+    </script>

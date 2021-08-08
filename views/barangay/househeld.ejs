@@ -5,9 +5,21 @@
     <div class="col-6 offset-3">
         <form action="/add" method="post">
             <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" name="name" id="name" class="form-control">
+                <label for="name" class="form-label">First Name</label>
+                <input type="text" name="name" id="firstname" class="form-control">
             </div>  
+            <div class="mb-3">
+                <label for="name" class="form-label">Middle Name</label>
+                <input type="text" name="name" id="middlename" class="form-control">
+            </div> 
+            <div class="mb-3">
+                <label for="name" class="form-label">Last Name</label>
+                <input type="text" name="name" id="lastname" class="form-control">
+            </div> 
+            <div class="mb-3">
+                <label for="name" class="form-label">Suffix</label>
+                <input type="text" name="name" id="suffix" class="form-control">
+            </div> 
             <div class="mb-3">
                 <label for="contactNumber" class="form-label">Contact Number</label>
                 <input type="text" name="contactNumber" id="contactNumber" class="form-control">
@@ -28,8 +40,8 @@
                 <input type="number" name=birthday" id="age" class="form-control">
             </div>      
             <div class="mb-3">
-                <label for="regions" class="form-label">Civil Status</label>
-                <select name="civilStatus" id="regions" class="form-select">
+                <label for="civilStatus" class="form-label">Civil Status</label>
+                <select name="civilStatus" id="civilStatus" class="form-select">
                     <option selected>Open this select menu</option>
                         <option value="single">Single</option>
                         <option name="married">married</option>
@@ -37,6 +49,7 @@
                         <option name="widow">widow</option>
                 </select>
                 </div>
+                <h3>Permanent Address</h3>
                 <div class="mb-3">
                     <label for="barangay" class="form-label">Barangay</label>
                     <select name="destination" id="barangay" class="form-select">
@@ -45,6 +58,17 @@
                             <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
                             <% } %>  
                     </select>
+                    <hr>
+                    <h3>Temporary Address</h3>
+                <div class="mb-3">
+                    <label for="barangay" class="form-label">Barangay</label>
+                    <select name="destination" id="barangay" class="form-select">
+                        <option selected>Open this select barangay</option>
+                        <% for(barangay of barangays) {%>
+                            <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
+                            <% } %>  
+                    </select>
+                    <hr>
                 <div class="mb-3">
                     <label for="sector" class="form-label">Sector</label>
                     <select name="sector" id="sector" class="form-select">
@@ -78,9 +102,10 @@
                                
                         </select>
                         </div>
+                        <h2>Beneficiary</h2>
                         <div class="mb-3" id="toggle" >      
                             <div class="form-check">
-                                <input class="form-check-input"  type="checkbox" name="barangay" value="UCT Beneficiary" id="uct">
+                                <input class="form-check-input"  type="checkbox" name="beneficiary" value="UCT Beneficiary" id="uct">
                                 <label class="form-check-label" for="uct">
                                     UCT Beneficiary
                                 </label>
@@ -88,15 +113,21 @@
                           
                         </div>
                         <div class="form-check" >
-                            <input class="form-check-input"  type="checkbox" name="barangay" value="Beneficiary of 4P'S" id="4PS">
+                            <input class="form-check-input"  type="checkbox" name="beneficiary" value="Beneficiary of 4P'S" id="4PS">
                             <label class="form-check-label" for="4PS">
                                 Beneficiary of 4P'S
                             </label>
                         </div>
                         <div class="form-check" >
-                            <input class="form-check-input"  type="checkbox" name="barangay" value="Indigenous Group" id="Group">
+                            <input class="form-check-input"  type="checkbox" name="beneficiary" value="Indigenous Group" id="Group">
                             <label class="form-check-label" for="Group">
-                                Beneficiary of 4P'S
+                                Indigenous Group
+                            </label>
+                        </div>
+                        <div class="form-check" >
+                            <input class="form-check-input"  type="checkbox" name="beneficiary" value="others" id="Group">
+                            <label class="form-check-label" for="Group">
+                                others
                             </label>
                         </div>
                         </div> 
@@ -200,6 +231,7 @@
                var feduc = document.getElementById('feduc').value;
                var fhealth = document.getElementById('fhealth').value
                
+               
          
 
               
@@ -227,13 +259,44 @@
 
                
            };
-
+           
            function sendData(){
-               var name =document.getElementById('name').value
+            var beneficiary = document.getElementsByName("beneficiary")[0].value
+               var lastname =document.getElementById('lastname').value
                var barangay = document.getElementById('barangay').value
+               var firstname = document.getElementById('firstname').value
+               var middlename = document.getElementById('middlename').value
+               var suffix =document.getElementById('suffix').value
+               var contactNumber = document.getElementById('contactNumber').value
+               var occupation = document.getElementById('occupation').value
+               var income =document.getElementById('income').value
+               var workplace = document.getElementById('workplace').value
+             var birthday = document.getElementById('date').value
+             var civilStatus = document.getElementById('civilStatus').value
+             var barangay = document.getElementById('barangay').value
+             var sector =document.getElementById('sector').value
+             var education = document.getElementById('education').value
+             var health = document.getElementById('health').value
+
+             
+
                axios.post('/barangay/add',{
-                   name:name,
-                   barangay:barangay
+                   name:lastname +" "+ firstname +" " +middlename +" " +suffix,
+                   barangay:barangay,
+                   beneficiary:beneficiary,
+                   birthday:birthday,
+                   contactNumber:contactNumber,
+                   occupation:occupation,
+                   income:income,
+                   workplace:workplace,
+                   birthday:birthday,
+                   civilStatus:civilStatus,
+                   barangay:barangay,
+                   sector:sector,
+                   education:education,
+                   health:health
+
+                   
                }).then((respond)=>{
                    console.log(respond.data)
                    window.location= `/barangay/success/${respond.data}`

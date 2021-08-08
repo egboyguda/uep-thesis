@@ -5,6 +5,33 @@ const personSchema = new Schema({
   name: {
     type: String,
   },
+  sector: {
+    type: String,
+  },
+  beneficiary: {
+    type: String,
+  },
+  contactNumber: {
+    type: String,
+  },
+  occupation: {
+    type: String,
+  },
+  income: {
+    type: Number,
+  },
+  workplace: {
+    type: String,
+  },
+  civilStatus: {
+    type: String,
+  },
+  education: {
+    type: String,
+  },
+  health: {
+    type: String,
+  },
   barangay: {
     type: String,
     enum: [
@@ -37,10 +64,8 @@ const personSchema = new Schema({
   },
   relief: [
     {
-      relief: {
-        type: Schema.Types.ObjectId,
-        ref: 'Relief',
-      },
+      type: Schema.Types.ObjectId,
+      ref: 'Relief',
     },
   ],
 });

@@ -1,5 +1,5 @@
 <% layout('layouts/sidebar')%> 
-
+<%include('function.ejs') %> 
 
  <div class="row">
     <h1 class="text-center">Send Goods to Barangay</h1>
@@ -11,10 +11,11 @@
                 <div class="mb-3">
                     <label for="commodityName" class="form-label">Select the Goods u want to send</label>
                     <select name="category" id="commodityName" class="form-select">
+                        
                     <option selected>Select Goods</option>
                     <% for(data of stock){ %> 
-                       
-                        <option name="<%=data.name  %> "><%=data.name  %> </option>
+                      
+                        <option name="<%=data.name  %> "><%=data.name  %> exp: (<%=data.expiration  %>  ) </option>
                         <% } %> 
                     </select>          
                     </div> 
