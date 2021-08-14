@@ -21,6 +21,10 @@
                 <input type="text" name="name" id="suffix" class="form-control">
             </div> 
             <div class="mb-3">
+                <label for="nickname" class="form-label">Nickname</label>
+                <input type="text" name="nickname" id="nickname" class="form-control">
+            </div> 
+            <div class="mb-3">
                 <label for="contactNumber" class="form-label">Contact Number</label>
                 <input type="text" name="contactNumber" id="contactNumber" class="form-control">
              </div>
@@ -51,6 +55,10 @@
                 </div>
                 <h3>Permanent Address</h3>
                 <div class="mb-3">
+                    <label for="name" class="form-label">Municipal</label>
+                    <input type="text" name="name" id="lastname" class="form-control">
+                </div> 
+                <div class="mb-3">
                     <label for="barangay" class="form-label">Barangay</label>
                     <select name="destination" id="barangay" class="form-select">
                         <option selected>Open this select barangay</option>
@@ -58,8 +66,14 @@
                             <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
                             <% } %>  
                     </select>
+            
                     <hr>
+                    
                     <h3>Temporary Address</h3>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Municipal</label>
+                        <input type="text" name="name" id="lastname" class="form-control">
+                    </div> 
                 <div class="mb-3">
                     <label for="barangay" class="form-label">Barangay</label>
                     <select name="destination" id="barangay" class="form-select">

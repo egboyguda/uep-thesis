@@ -14,15 +14,12 @@ const multer = require('multer');
 const upload = multer();
 //pag open sa databese
 //'mongodb://localhost/web-based-relief-tracking' |
-mongoose.connect(
-  'mongodb://localhost/web-based-relief-tracking', //process.env.DB_URL,
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  }
-);
+mongoose.connect(process.env.DB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));

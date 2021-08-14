@@ -13,11 +13,11 @@ const { find } = require('../models/donationModel');
 const Relief = require('../models/relief');
 const Person = require('../models/person');
 
-router.get('/fake', async (req, res) => {
-  const user = new User({ username: 'test3', isBarangay: true });
-  await User.register(user, 'test3');
-  res.redirect('/login');
-});
+// router.get('/fake', async (req, res) => {
+//   const user = new User({ username: 'test3', isBarangay: true });
+//   await User.register(user, 'test3');
+//   res.redirect('/login');
+// });
 
 router.get('/logout', (req, res) => {
   req.logOut();
@@ -181,5 +181,21 @@ router.get('/track/relief/:id', async (req, res) => {
   console.log('called');
   res.render('admin/relief', { id, relief });
 });
-
+router.get('/account', isLoggedIn, isAdminL, (req, res) => {
+  res.render('admin/account');
+});
+router.post('/account', isLoggedIn, isAdminL, async (req, res) => {
+  const { username, up, role } = req.body;
+  if (role == 'admin') {
+    const user = new User({ username: username, isAdmin: true });
+    await User.register(user, up);
+  } else if (role == 'staff') {
+    const user = new User({ username: username, isStaff: true });
+    await User.register(user, up);
+  } else {
+    const user = new User({ username: username, isBarangay: true });
+    await User.register(user, up);
+  }
+  res.redirect('/account');
+});
 module.exports = router;
