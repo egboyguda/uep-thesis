@@ -6,7 +6,7 @@
 <div class='row'>
     <div class="col-6 offset-3">
         <div class="mb-3">
-            <label for="regions" class="form-label">Destination</label>
+            <label for="regions" class="form-label">Barangay</label>
                         <select name="destination" id="regions" class="form-select">
                             <option selected>Open this select menu</option>
                             <% for(barangay of barangays) {%>
@@ -16,9 +16,7 @@
         </div>
         <input type="button" value="Find" class="btn btn-success" onClick='getData()'>
          <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button>
+
   
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
