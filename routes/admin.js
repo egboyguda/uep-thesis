@@ -185,11 +185,12 @@ router.get('/account', isLoggedIn, isAdminL, (req, res) => {
   res.render('admin/account');
 });
 router.post('/account', isLoggedIn, isAdminL, async (req, res) => {
+  console.log(req.body);
   const { username, up, role } = req.body;
-  if (role == 'admin') {
+  if (role == 'admin' || role == 'Admin') {
     const user = new User({ username: username, isAdmin: true });
     await User.register(user, up);
-  } else if (role == 'staff') {
+  } else if (role == 'staff' || role == 'Staff') {
     const user = new User({ username: username, isStaff: true });
     await User.register(user, up);
   } else {
