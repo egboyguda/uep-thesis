@@ -8,7 +8,7 @@
       <img src="/img/assets/hello.svg" alt="" />
       <div class="main__greeting">
         <h1>Hello</h1>
-        <p>Welcome to your admin dashboard</p>
+        <p>Welcome to your <%if(currentUser.isAdmin){ %> admin <% }else if(currentUser.isStaff) {%>Staff <% }else{ %> barangay <% } %>  dashboard</p>
       </div>
     </div>
 
@@ -24,20 +24,20 @@
           aria-hidden="true"
         ></i>
         <div class="card_inner">
-          <p class="text-primary-p">TO BE EDIT</p>
-          <span class="font-bold text-title">0</span>
+          <p class="text-primary-p">Register User</p>
+          <span class="font-bold text-title"><%= userLength  %> </span>
         </div>
       </div>
 
 
       <div class="card">
         <i
-          class="fa fa-bus fa-2x text-yellow"
+          class="fa fa-archive fa-2x text-yellow"
           aria-hidden="true"
         ></i>
         <div class="card_inner">
-          <p class="text-primary-p">TO BE EDIT</p>
-          <span class="font-bold text-title">3</span>
+          <p class="text-primary-p">Relief</p>
+          <span class="font-bold text-title"><%=reliefLength  %> </span>
         </div>
       </div>
 
@@ -47,8 +47,8 @@
           aria-hidden="true"
         ></i>
         <div class="card_inner">
-          <p class="text-primary-p">TO BE EDIT</p>
-          <span class="font-bold text-title">0</span>
+          <p class="text-primary-p">Register Household</p>
+          <span class="font-bold text-title"><%=personL  %> </span>
         </div>
       </div>
     </div>
@@ -68,23 +68,23 @@
 
         <div class="charts__right__cards">
           <div class="card1">
-            <h1>TO BE EDIT</h1>
-            <p>TO BE EDIT</p>
+            <h1>Donations</h1>
+            <p><%=donationL  %> </p>
           </div>
 
           <div class="card2">
-            <h1>TO BE EDIT</h1>
-            <p>TO BE EDIT</p>
+            <h1>Staff</h1>
+            <p><%=staffL  %> </p>
           </div>
 
           <div class="card3">
-            <h1>TO BE EDIT</h1>
-            <p>TO BE EDIT</p>
+            <h1>Relief Distributed</h1>
+            <p><%=completed  %> </p>
           </div>
 
           <div class="card4">
-            <h1>TO BE EDIT</h1>
-            <p>TO BE EDIT</p>
+            <h1>Commodity Delivered to Barangay</h1>
+            <p><%=com  %> </p>
           </div>
         </div>
       </div>

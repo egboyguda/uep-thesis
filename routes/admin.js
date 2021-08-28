@@ -47,8 +47,29 @@ router.post(
 );
 //dd pag add donator
 //mag add cya dd donation
-router.get('/', isLoggedIn, (req, res) => {
-  res.redirect('/add');
+router.get('/', isLoggedIn, async (req, res) => {
+  const user = await User.find({});
+  const relief = await Relief.find({});
+  const people = await Person.find({});
+  const donation = await Donation.find({});
+  const staff = await User.find({
+    isStaff: { $eq: true },
+  });
+  const finish = await Relief.find({
+    isCompleted: { $eq: true },
+  });
+  const commodity = await Commodity.find({});
+  console.log(user.length);
+  res.render('admin/dashboard', {
+    userLength: user.length,
+    reliefLength: relief.length,
+    personL: people.length,
+    donationL: donation.length,
+    staffL: staff.length,
+    completed: finish.length,
+    com: commodity.length,
+  });
+  //res.redirect('/add');
 });
 router.get('/add', isLoggedIn, (req, res) => {
   res.render('admin/donation');

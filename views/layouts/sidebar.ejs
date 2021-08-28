@@ -51,6 +51,10 @@
      
           <h2>MNG</h2>
           <% if(currentUser.isAdmin) {%> 
+            <div class="sidebar__link active_menu_link"">
+              <i class="fa fa-user-secret" aria-hidden="true"></i>
+              <a href="/">Dashboard</a>
+            </div>
           <div class="sidebar__link active_menu_link"">
             <i class="fa fa-user-secret" aria-hidden="true"></i>
             <a href="/add">Add Donation</a>
@@ -83,6 +87,14 @@
         <% }else if(currentUser.isStaff){ %> 
           <div class="sidebar__link active_menu_link"">
             <i class="fa fa-user-secret" aria-hidden="true"></i>
+            <a href="/">Dashboard</a>
+          </div>
+          <div class="sidebar__link active_menu_link"">
+            <i class="fa fa-user-secret" aria-hidden="true"></i>
+            <a href="/add">Add Donation</a>
+          </div>
+          <div class="sidebar__link active_menu_link"">
+            <i class="fa fa-user-secret" aria-hidden="true"></i>
             <a href="/add">Add Commodity</a>
           </div>
           <div class="sidebar__link">
@@ -103,6 +115,10 @@
           </div>
           
           <% } else if(currentUser.isBarangay){%> 
+            <div class="sidebar__link active_menu_link"">
+              <i class="fa fa-user-secret" aria-hidden="true"></i>
+              <a href="/">Dashboard</a>
+            </div>
             
             <div class="sidebar__link">
               <i class="fa fa-question"></i>
