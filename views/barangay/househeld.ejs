@@ -1,8 +1,7 @@
 <% layout('layouts/sidebar')%> 
-
 <div class="row">
     <h1 class="text-center">Head of the Family</h1>
-    <div class="col-6 offset-3">
+    <div class="col-9 offset-2">
         <form action="/add" method="post">
             <div class="mb-3">
                 <label for="name" class="form-label">First Name</label>
@@ -164,15 +163,15 @@
                         <div class="mb-3">
                             <label for="fgender" class="form-label">Gender</label>
                             <select id="fgender" class="form-select">
-                                <option selected>Select Gender</option>
-                                    <option value="male">male</option>
+                                
+                                    <option value="male" selected>male</option>
                                     <option value="female">female</option> 
                             </select>
                             </div>
                             <div class="mb-3">
                                 <label for="fsector" class="form-label">Sector</label>
                                 <select name="fsector" id="fsector" class="form-select">
-                                    <option selected>Open this select menu</option>
+                                    <option selected>N/A</option>
                                         <option name="nakakatanda">Nakakatanda</option>
                                         <option name="buntis">Buntis</option>
                                         <option name="nagpapasusong ina">Nag Papasusong ina</option>
@@ -183,8 +182,8 @@
                             <div class="mb-3">
                                 <label for="feduc" class="form-label">Highest Educational Attainment</label>
                                 <select name="feduc" id="feduc" class="form-select">
-                                    <option selected>Open this select menu</option>
-                                        <option value="Elementary">Elementary</option>
+                                   
+                                        <option value="Elementary" selected>Elementary</option>
                                         <option name="highschool">High School</option>
                                         <option name="college">College</option>
                                        
@@ -193,7 +192,7 @@
                                 <div class="mb-3">
                                     <label for="fhealth" class="form-label">Health Condition</label>
                                     <select name="fhealth" id="fhealth" class="form-select">
-                                        <option selected>Open this select menu</option>
+                                        <option selected>N/A</option>
                                             <option value="sakit sa puso">Sakit sa puso</option>
                                             <option name="altapresyun">Altapresyun</option>
                                             <option name="sakit sa baga">Sakit sa Baga</option>
@@ -235,6 +234,18 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        class Person{
+            constructor(name,relation,bday,gender,educ,health,sector){
+                this.name =name;
+                this.relation =relation;
+                this.gender=gender;
+                this.bday= bday;
+                this.educ=educ;
+                this.health=health;
+                this.sector= sector;
+            }
+        }
+        var family=[];
           function updateForm(){
                
                var fname = document.getElementById('fname').value;
@@ -270,7 +281,7 @@
                 cell7.innerHTML =`<input type=\"text\" name=\"relation\" value=\"${fhealth}\" readonly=\"readonly\">`;
                //data.push(new Commodity(commodityName,units,quantity))
                //table.innerHTML+="tr"
-
+                family.push(new Person(fname,relation,famBday,fgender,feduc,fhealth,fsector))
                
            };
            
@@ -308,7 +319,339 @@
                    barangay:barangay,
                    sector:sector,
                    education:education,
-                   health:health
+                   health:health,
+                   family:family,
+
+                   
+               }).then((respond)=>{
+                   console.log(respond.data)
+                   window.location= `/barangay/success/${respond.data}`
+
+               })
+           }
+    </script>
+<div class="row">
+    <h1 class="text-center">Head of the Family</h1>
+    <div class="col-9 offset-2">
+        <form action="/add" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">First Name</label>
+                <input type="text" name="name" id="firstname" class="form-control">
+            </div>  
+            <div class="mb-3">
+                <label for="name" class="form-label">Middle Name</label>
+                <input type="text" name="name" id="middlename" class="form-control">
+            </div> 
+            <div class="mb-3">
+                <label for="name" class="form-label">Last Name</label>
+                <input type="text" name="name" id="lastname" class="form-control">
+            </div> 
+            <div class="mb-3">
+                <label for="name" class="form-label">Suffix</label>
+                <input type="text" name="name" id="suffix" class="form-control">
+            </div> 
+            <div class="mb-3">
+                <label for="nickname" class="form-label">Nickname</label>
+                <input type="text" name="nickname" id="nickname" class="form-control">
+            </div> 
+            <div class="mb-3">
+                <label for="contactNumber" class="form-label">Contact Number</label>
+                <input type="text" name="contactNumber" id="contactNumber" class="form-control">
+             </div>
+             <div class="mb-3">
+                <label for="occupation" class="form-label">Occupation</label>
+                <input type="text" name="occupation" id="occupation" class="form-control">
+                <label for="income" class="form-label">Monthly Income</label>
+                <input type="number" name="income" id="income" class="form-control">
+                <label for="workplace" class="form-label">Workplace</label>
+                <input type="text" name="workplace" id="workplace" class="form-control">
+             
+            </div>  
+            <div class="mb-3">
+                <label for="date" class="form-label">Birthday</label>
+                <input type="date" name=birthday" id="date" class="form-control">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" name=birthday" id="age" class="form-control">
+            </div>      
+            <div class="mb-3">
+                <label for="civilStatus" class="form-label">Civil Status</label>
+                <select name="civilStatus" id="civilStatus" class="form-select">
+                    <option selected>Open this select menu</option>
+                        <option value="single">Single</option>
+                        <option name="married">married</option>
+                        <option name="annulled">annulled</option>
+                        <option name="widow">widow</option>
+                </select>
+                </div>
+                <h3>Permanent Address</h3>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Municipal</label>
+                    <input type="text" name="name" id="lastname" class="form-control">
+                </div> 
+                <div class="mb-3">
+                    <label for="barangay" class="form-label">Barangay</label>
+                    <select name="destination" id="barangay" class="form-select">
+                        <option selected>Open this select barangay</option>
+                        <% for(barangay of barangays) {%>
+                            <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
+                            <% } %>  
+                    </select>
+            
+                    <hr>
+                    
+                    <h3>Temporary Address</h3>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Municipal</label>
+                        <input type="text" name="name" id="lastname" class="form-control">
+                    </div> 
+                <div class="mb-3">
+                    <label for="barangay" class="form-label">Barangay</label>
+                    <select name="destination" id="barangay" class="form-select">
+                        <option selected>Open this select barangay</option>
+                        <% for(barangay of barangays) {%>
+                            <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
+                            <% } %>  
+                    </select>
+                    <hr>
+                <div class="mb-3">
+                    <label for="sector" class="form-label">Sector</label>
+                    <select name="sector" id="sector" class="form-select">
+                        <option selected>Open this select menu</option>
+                            <option value="nakakatanda">Nakakatanda</option>
+                            <option name="buntis">Buntis</option>
+                            <option name="nagpapasusong ina">Nag Papasusong ina</option>
+                            <option name="solo parent">Solo Parent</option>
+                            <option name="walang tirahan">Walang Tirahan</option>
+                    </select>
+                    </div>
+                <div class="mb-3">
+                    <label for="education" class="form-label">Highest Educational Attainment</label>
+                    <select name="education" id="education" class="form-select">
+                        <option selected>Open this select menu</option>
+                            <option value="Elementary">Elementary</option>
+                            <option name="highschool">High School</option>
+                            <option name="college">College</option>
+                           
+                    </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="health" class="form-label">Health Condition</label>
+                        <select name="health" id="health" class="form-select">
+                            <option selected>Open this select menu</option>
+                                <option value="sakit sa puso">Sakit sa puso</option>
+                                <option name="altapresyun">Altapresyun</option>
+                                <option name="sakit sa baga">Sakit sa Baga</option>
+                                <option name="diyabetis">Diyabetis</option>
+                                <option name="kanser">Kanser</option>
+                               
+                        </select>
+                        </div>
+                        <h2>Beneficiary</h2>
+                        <div class="mb-3" id="toggle" >      
+                            <div class="form-check">
+                                <input class="form-check-input"  type="checkbox" name="beneficiary" value="UCT Beneficiary" id="uct">
+                                <label class="form-check-label" for="uct">
+                                    UCT Beneficiary
+                                </label>
+                          
+                          
+                        </div>
+                        <div class="form-check" >
+                            <input class="form-check-input"  type="checkbox" name="beneficiary" value="Beneficiary of 4P'S" id="4PS">
+                            <label class="form-check-label" for="4PS">
+                                Beneficiary of 4P'S
+                            </label>
+                        </div>
+                        <div class="form-check" >
+                            <input class="form-check-input"  type="checkbox" name="beneficiary" value="Indigenous Group" id="Group">
+                            <label class="form-check-label" for="Group">
+                                Indigenous Group
+                            </label>
+                        </div>
+                        <div class="form-check" >
+                            <input class="form-check-input"  type="checkbox" name="beneficiary" value="others" id="Group">
+                            <label class="form-check-label" for="Group">
+                                others
+                            </label>
+                        </div>
+                        </div> 
+                        <h1 class="text-center">Family Member</h1>
+                        <div class="mb-3">
+                            <label for="fname" class="form-label">Name</label>
+                            <input type="text" id="fname" class="form-control">
+                        </div> 
+                        <div class="mb-3">
+                            <label for="relation" class="form-label">Relation</label>
+                            <input type="text" id="relation" class="form-control">
+                        </div> 
+                        <div class="mb-3">
+                            <label for="famBday" class="form-label">Birthday</label>
+                            <input type="date" name=famBday" id="famBday" class="form-control">
+                      
+                        </div>  
+                       
+                        </div>
+                        <div class="mb-3">
+                            <label for="fgender" class="form-label">Gender</label>
+                            <select id="fgender" class="form-select">
+                                
+                                    <option value="male" selected>male</option>
+                                    <option value="female">female</option> 
+                            </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fsector" class="form-label">Sector</label>
+                                <select name="fsector" id="fsector" class="form-select">
+                                    <option selected>N/A</option>
+                                        <option name="nakakatanda">Nakakatanda</option>
+                                        <option name="buntis">Buntis</option>
+                                        <option name="nagpapasusong ina">Nag Papasusong ina</option>
+                                        <option name="solo parent">Solo Parent</option>
+                                        <option name="walang tirahan">Walang Tirahan</option>
+                                </select>
+                                </div>
+                            <div class="mb-3">
+                                <label for="feduc" class="form-label">Highest Educational Attainment</label>
+                                <select name="feduc" id="feduc" class="form-select">
+                                   
+                                        <option value="Elementary" selected>Elementary</option>
+                                        <option name="highschool">High School</option>
+                                        <option name="college">College</option>
+                                       
+                                </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fhealth" class="form-label">Health Condition</label>
+                                    <select name="fhealth" id="fhealth" class="form-select">
+                                        <option selected>N/A</option>
+                                            <option value="sakit sa puso">Sakit sa puso</option>
+                                            <option name="altapresyun">Altapresyun</option>
+                                            <option name="sakit sa baga">Sakit sa Baga</option>
+                                            <option name="diyabetis">Diyabetis</option>
+                                            <option name="kanser">Kanser</option>
+                                           
+                                    </select>
+                                </div>
+                            <input type="button" value="Add" class="btn btn-success" onClick="updateForm();">
+                            <h1 class="text-center">Family List</h1>
+                            <table class="table" id='results' name='table'>
+                                <thead>
+                                  <tr>
+                                    <th scope="col">Family Member</th>
+                            
+                                    <th scope="col">Family Relationship</th>
+                                    <th scope="col">Birthday</th>
+                                    <th scope="col">Gender</th>
+                              
+                                    <th scope="col">Highest Educational Attainment</th>
+                                    <th scope="col">Sector</th>
+                                    <th scope="col">Health Condition</th>
+                                  
+                                </thead>
+                                <tbody id="tbody">
+                                   
+                                </tbody>
+                              </table>
+                 
+   
+              <input type="button" value="submit" class="btn btn-success" onClick="sendData();">
+            </div>
+            
+    
+    
+    
+    
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        class Person{
+            constructor(name,relation,bday,gender,educ,health,sector){
+                this.name =name;
+                this.relation =relation;
+                this.gender=gender;
+                this.bday= bday;
+                this.educ=educ;
+                this.health=health;
+                this.sector= sector;
+            }
+        }
+        var family=[];
+          function updateForm(){
+               
+               var fname = document.getElementById('fname').value;
+               var relation = document.getElementById('relation').value;
+               var famBday = document.getElementById('famBday').value;
+               var fgender = document.getElementById('fgender').value;
+               var fsector = document.getElementById('fsector').value;
+               var feduc = document.getElementById('feduc').value;
+               var fhealth = document.getElementById('fhealth').value
+               
+               
+         
+
+              
+               var table = document.getElementById('results');
+
+                var row = table.insertRow(-1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
+                var cell8 = row.insertCell(7);
+
+                cell1.innerHTML = `<input type=\"text\" name=\"fname\" value=\"${fname}\" readonly=\"readonly\">`;
+                cell2.innerHTML = `<input type=\"text\" name=\"famBday\" value=\"${relation}\" readonly=\"readonly\">`;
+                cell3.innerHTML =`<input type=\"text\" name=\"relation\" value=\"${famBday}\" readonly=\"readonly\">`;
+                cell4.innerHTML =`<input type=\"text\" name=\"relation\" value=\"${fgender}\" readonly=\"readonly\">`;
+                cell5.innerHTML =`<input type=\"text\" name=\"relation\" value=\"${feduc}\" readonly=\"readonly\">`;
+                cell6.innerHTML =`<input type=\"text\" name=\"relation\" value=\"${fsector}\" readonly=\"readonly\">`;
+                cell7.innerHTML =`<input type=\"text\" name=\"relation\" value=\"${fhealth}\" readonly=\"readonly\">`;
+               //data.push(new Commodity(commodityName,units,quantity))
+               //table.innerHTML+="tr"
+                family.push(new Person(fname,relation,famBday,fgender,feduc,fhealth,fsector))
+               
+           };
+           
+           function sendData(){
+            var beneficiary = document.getElementsByName("beneficiary")[0].value
+               var lastname =document.getElementById('lastname').value
+               var barangay = document.getElementById('barangay').value
+               var firstname = document.getElementById('firstname').value
+               var middlename = document.getElementById('middlename').value
+               var suffix =document.getElementById('suffix').value
+               var contactNumber = document.getElementById('contactNumber').value
+               var occupation = document.getElementById('occupation').value
+               var income =document.getElementById('income').value
+               var workplace = document.getElementById('workplace').value
+             var birthday = document.getElementById('date').value
+             var civilStatus = document.getElementById('civilStatus').value
+             var barangay = document.getElementById('barangay').value
+             var sector =document.getElementById('sector').value
+             var education = document.getElementById('education').value
+             var health = document.getElementById('health').value
+
+             
+
+               axios.post('/barangay/add',{
+                   name:lastname +" "+ firstname +" " +middlename +" " +suffix,
+                   barangay:barangay,
+                   beneficiary:beneficiary,
+                   birthday:birthday,
+                   contactNumber:contactNumber,
+                   occupation:occupation,
+                   income:income,
+                   workplace:workplace,
+                   birthday:birthday,
+                   civilStatus:civilStatus,
+                   barangay:barangay,
+                   sector:sector,
+                   education:education,
+                   health:health,
+                   family:family,
 
                    
                }).then((respond)=>{
