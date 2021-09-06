@@ -45,12 +45,13 @@
             <th>name</th>
             <th>barangay</th>
             <th>Information</th>
+            <th>Family member</th>
          
 	    </tr>
     </thead>
    
     </table>
- 
+ <a href="/family/"></a>
 </div>    
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
@@ -77,7 +78,13 @@
                             "data":null,
                             "bSortable": false,
                             "mRender": function (o) { return `<button class='btn btn-success' onclick=getInfo("${o._id}");>` +'view'+'</button>'; }
+                        },
+                        {
+                            "data":null,
+                            "bSortable": false,
+                            "mRender": function (o) { return `<a href="/family/${o._id}" class='btn btn-success'>view</a>`; }
                         }
+            
             
     				],
                     

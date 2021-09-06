@@ -18,6 +18,12 @@ const commoditySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Donation',
   },
+  arrivalDate: {
+    type: Date,
+  },
+  acceptName: {
+    type: String,
+  },
 });
 const Commodity = mongoose.model('Commodity', commoditySchema);
 module.exports = Commodity;

@@ -62,6 +62,9 @@ const personSchema = new Schema({
       'Tula',
     ],
   },
+  family: {
+    type: Object,
+  },
   relief: [
     {
       type: Schema.Types.ObjectId,

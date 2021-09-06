@@ -9,6 +9,8 @@
         <th >Donated</th>
         <th>Quantity</th>
         <th >Calamity</th>
+        <th >Arrival Date</th>
+        <th>Acceptance Name</th>
       
     </thead>
 
@@ -24,6 +26,13 @@
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
+    function getFormattedDate(date) {
+    let year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+  
+    return month + '/' + day + '/' + year;
+}
      $(document).ready(function(){
        axios.get('/api/commodity')
        .then((res)=>{
@@ -42,7 +51,18 @@
              },
              {
               'data':'donator.calamity'
+             },{
+              'data':null,
+              "bSortable":false,
+              "mRender":function(o){
+                return '<span>'+ getFormattedDate(new Date(o.arrivalDate))+'</span>'
+              }
+            },
+             
+              {
+               'data':'acceptName'
              }
+             
            ],
            buttons: [
             {
@@ -54,11 +74,11 @@
 doc.content[1].table.widths = [
 '25%',
 '25%',
-'25%',
-'25%',
 '10%',
 '10%',
-'5%'
+'15%',
+'20%',
+'0%'
 ]
 }
             }

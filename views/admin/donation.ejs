@@ -6,7 +6,7 @@
             <form action="/add" method="post">
                 <div class="mb-3">
                     <label for="name" class="form-label">Donator Name</label>
-                    <input type="text" name="name" id="name" class="form-control">
+                    <input type="text" name="name" id="name" class="form-control" required>
                 </div>  
                 <div class="mb-3">
                     <label for="contactNumber" class="form-label">Contact Number</label>
@@ -17,15 +17,15 @@
                     <input type="text" name="calamity" id="calamity" class="form-control">
                 </div>       
                 <div class="mb-3">
-                    <label for="regions" class="form-label">Civil Status</label>
-                    <select name="civilStatus" id="regions" class="form-select">
-                        <option selected>Open this select menu</option>
-                            <option value="single">Single</option>
-                            <option name="married">married</option>
-                            <option name="annulled">annulled</option>
-                            <option name="widow">widow</option>
-                    </select>
+                    <label for="arrDate" class="form-label">Arrival Date</label>
+                    <input type="date" name="arrivalDate" id="arrDate" class="form-control">
+
+                  
                     </div>
+                    <div class="mb-3">
+                        <label for="arrDate" class="form-label">Acceptance Name</label>
+                        <input type="text" name="acceptName" id="acceptName" class="form-control">
+                        </div>
                     <h1 class="text-center">Donation Information</h1>
                     <div class="mb-3">
                         <label for="commodityName" class="form-label">Commodity Name</label>
@@ -124,18 +124,22 @@
             async function sendData(){
                 var table = document.getElementById('results');
                 var name = document.getElementById('name').value;
+                var arrivalDate = document.getElementById('arrDate').value;
+                var acceptName =document.getElementById('acceptName').value;
                 var calamity = document.getElementById('calamity').value;
                 var row = table.insertRow(-1);
                  var cell1 = row.insertCell(0);
                  var cell2 = row.insertCell(1);
                 axios.post('/add',{
                     name: name,
+                    arrivalDate:arrivalDate,
+                    acceptName:acceptName,
                     calamity:calamity,
                     commodity:data,
                 }).then(()=>{
                     console.log('ok')
                     alert('successfully send')
-                    window.location('/add')
+                    window.location('https://uep-thesis.herokuapp.com/add')
                 })
                 
             }

@@ -1,0 +1,22 @@
+<% layout('layouts/sidebar')%> 
+<h1 class="text-center">
+    Family Members
+</h1>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Relation</th>
+            <th>Gender</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for(data of person.family) {%>
+            <tr>
+                <td><%= data.name %> </td>
+                <td><%= data.relation %> </td>
+                <td><%=data.gender  %> </td>
+            </tr>
+            <% } %>  
+    </tbody>
+</table>

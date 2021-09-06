@@ -18,11 +18,20 @@ const Person = require('../models/person');
 //   await User.register(user, 'test3');
 //   res.redirect('/login');
 // });
-
+router.get('/househeld2', async (req, res) => {
+  const barangays = await phil.getBarangayByMun('084815');
+  res.render('barangay/househeld2', { barangays });
+});
 router.get('/logout', (req, res) => {
   req.logOut();
 
   res.redirect('/login');
+});
+
+router.get('/family/:id', isLoggedIn, async (req, res) => {
+  const id = req.params.id;
+  const person = await Person.findById(id);
+  res.render('admin/family', { person });
 });
 //dd pag log in
 router.get('/login', (req, res) => {
@@ -75,7 +84,8 @@ router.get('/add', isLoggedIn, (req, res) => {
   res.render('admin/donation');
 });
 router.post('/add', isLoggedIn, async (req, res) => {
-  const { name, calamity, commodity, expiration } = req.body;
+  const { name, calamity, commodity, expiration, acceptName, arrivalDate } =
+    req.body;
   const donator = await Donation({ name: name, calamity: calamity });
 
   for (const e of commodity) {
@@ -84,6 +94,8 @@ router.post('/add', isLoggedIn, async (req, res) => {
       units: e.units,
       quantity: e.quantity,
       expiration: e.expiration,
+      arrivalDate: arrivalDate,
+      acceptName: acceptName,
     });
     data.donator = donator;
     await data.save();

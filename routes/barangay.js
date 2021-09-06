@@ -7,12 +7,12 @@ const { isBarangay, isLoggedIn } = require('../middleware');
 const Relief = require('../models/relief');
 
 //dd pag add housheal
-router.get('/add', isLoggedIn, async (req, res) => {
+router.get('/add', async (req, res) => {
   const barangays = await phil.getBarangayByMun('084815');
   res.render('barangay/househeld', { barangays });
 });
 
-router.post('/add', isLoggedIn, async (req, res) => {
+router.post('/add', async (req, res) => {
   const {
     name,
     barangay,
@@ -25,6 +25,7 @@ router.post('/add', isLoggedIn, async (req, res) => {
     sector,
     education,
     health,
+    family,
   } = req.body;
   console.log(req.body);
   console.log(`${barangay.trim()}`);
@@ -41,6 +42,7 @@ router.post('/add', isLoggedIn, async (req, res) => {
     education: education,
     health: health,
   });
+  user.family = await family;
   console.log(user);
   await user.save();
 
