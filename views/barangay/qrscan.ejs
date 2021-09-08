@@ -1,7 +1,7 @@
 <% layout('layouts/sidebar')%> 
 
 <div class="row justify-content-md-center">
-   <div class="col-6 offset-3">
+   <div class="col-5 offset-3">
         <p class="text-center" id="p"></p>
         <div  id="reader">
         </div>
@@ -34,7 +34,7 @@ function sendData(data){
 }
 var html5QrcodeScanner = new Html5QrcodeScanner('reader', {
   fps: 10,
-  qrbox: 200,
+  qrbox: 250,
 });
 
 html5QrcodeScanner.render(onScanSuccess);
