@@ -28,6 +28,7 @@ function sendData(data){
     person:data
   }).then((res)=>{
     alert('successfully scan')
+    location.reload();
     console.log(res.data)
   })
 }

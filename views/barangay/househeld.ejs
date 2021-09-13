@@ -152,6 +152,14 @@
                             <input type="text" id="fname" class="form-control">
                         </div> 
                         <div class="mb-3">
+                            <label for="fname" class="form-label">Suffix</label>
+                            <input type="text" name="name" id="fsuffix" class="form-control">
+                        </div> 
+                        <div class="mb-3">
+                            <label for="nickName" class="form-label">Nickname</label>
+                            <input type="text" name="nickName" id="nickName" class="form-control">
+                        </div> 
+                        <div class="mb-3">
                             <label for="relation" class="form-label">Relation</label>
                             <input type="text" id="relation" class="form-control">
                         </div> 
@@ -171,6 +179,20 @@
                             </select>
                             </div>
                             <div class="mb-3">
+                                <label for="foccupation" class="form-label">Occupation</label>
+                                <input type="text" id="foccupation" class="form-control">
+                            </div> 
+                            <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="fcivilStatus" class="form-label">Civil Status</label>
+                                    <select name="civilStatus" id="fcivilStatus" class="form-select">
+                                        <option selected>Open this select menu</option>
+                                            <option value="single">Single</option>
+                                            <option name="married">married</option>
+                                            <option name="annulled">annulled</option>
+                                            <option name="widow">widow</option>
+                                    </select>
+                                    </div>
                                 <label for="fsector" class="form-label">Sector</label>
                                 <select name="fsector" id="fsector" class="form-select">
                                     <option selected>N/A</option>
@@ -237,7 +259,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         class Person{
-            constructor(name,relation,bday,gender,educ,health,sector){
+            constructor(name,relation,bday,gender,educ,health,sector,nickName,occupation){
                 this.name =name;
                 this.relation =relation;
                 this.gender=gender;
@@ -245,6 +267,8 @@
                 this.educ=educ;
                 this.health=health;
                 this.sector= sector;
+                this.nickName= nickName;
+                this.occupation=occupation;
             }
         }
         var family=[];
@@ -257,6 +281,8 @@
                var fsector = document.getElementById('fsector').value;
                var feduc = document.getElementById('feduc').value;
                var fhealth = document.getElementById('fhealth').value
+               var nickName = document.getElementById('nickName').value;
+               var foccupation = document.getElementById('foccupation').value
                
                
          
@@ -273,6 +299,8 @@
                 var cell6 = row.insertCell(5);
                 var cell7 = row.insertCell(6);
                 var cell8 = row.insertCell(7);
+            
+                
 
                 cell1.innerHTML = `<input type=\"text\" name=\"fname\" value=\"${fname}\" readonly=\"readonly\">`;
                 cell2.innerHTML = `<input type=\"text\" name=\"famBday\" value=\"${relation}\" readonly=\"readonly\">`;
@@ -283,7 +311,7 @@
                 cell7.innerHTML =`<input type=\"text\" name=\"relation\" value=\"${fhealth}\" readonly=\"readonly\">`;
                //data.push(new Commodity(commodityName,units,quantity))
                //table.innerHTML+="tr"
-                family.push(new Person(fname,relation,famBday,fgender,feduc,fhealth,fsector))
+                family.push(new Person(fname,relation,famBday,fgender,feduc,fhealth,fsector,nickName,foccupation))
                
            };
            
@@ -305,7 +333,7 @@
              var education = document.getElementById('education').value
              var health = document.getElementById('health').value
 
-             
+             console.log(family)
 
                axios.post('/barangay/add',{
                    name:lastname +" "+ firstname +" " +middlename +" " +suffix,

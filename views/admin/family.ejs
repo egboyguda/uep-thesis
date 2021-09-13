@@ -6,22 +6,28 @@
     <thead>
         <tr>
             <th>Name</th>
+            <th>Nickname</th>
             <th>Relation</th>
             <th>Gender</th>
+            <th>Birthday</th>
             <th>Education</th>
             <th>Health</th>
             <th>Sector</th>
+            <th>Occupation</th>
         </tr>
     </thead>
     <tbody>
         <% for(data of person.family) {%>
             <tr>
                 <td><%= data.name %> </td>
+                <td><%=data.nickName  %> </td>
                 <td><%= data.relation %> </td>
                 <td><%=data.gender  %> </td>
-                <td><%=data.education  %> </td>
+                <td><%= data.bday %> </td>
+                <td><%=data.educ  %> </td>
                 <td><%=data.health %> </td>
                 <td><%=data.sector %> </td>
+                <td><%=data.occupation  %> </td>
             </tr>
             <% } %>  
     </tbody>
