@@ -1,7 +1,40 @@
 
 <% layout('layouts/sidebar')%> 
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <h1 class="text-center">List Of All Stock</h1>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Commodity</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="commodity">Commodity</label>
+        <input type="text" id="commodity" class="form-control">
+        <label for="stock">Stock Available</label>
+        <input type="text" id="stock" class="form-control">
+        <label for="dateEX">Expiration</label>
+        <input type="date" id="dateEX" class="form-control">
+        <div>
+          <label for="comID">id</label>
+          <input type="text" id="comID" class="form-control" readonly>
+        </div>
+    
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="updateGoods();">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <table  id ="example" class="display" style="width:100%">
     <thead>
       <tr>
@@ -9,17 +42,20 @@
 
         <th >Stock Available</th>
         <th>Expiration</th>
+        <th>Edit</th>
+        
       </tr>
     </thead>
     
   </table>
+  
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
     <script>
       function getFormattedDate(date) {
     let year = date.getFullYear();
@@ -27,6 +63,13 @@
     let day = date.getDate().toString().padStart(2, '0');
   
     return month + '/' + day + '/' + year;
+}
+function getFormattedDateIn(date) {
+    let year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+  
+    return year + '-' + month + '-' + day;
 }
       $(document).ready(function(){
         axios.get('/api/stock')
@@ -48,7 +91,14 @@
               "mRender":function(o){
                 return '<span>'+ getFormattedDate(new Date(o.expiration))+'</span>'
               }
-            }
+            },{
+              'data':null,
+              "bSortable":false,
+              "mRender":function(o){
+                return `<button class="btn btn-success" onclick=goodData("${o._id}");>edit</button>`
+              }
+            },
+          
             ],
             buttons: [
             {
@@ -73,3 +123,38 @@ doc.content[1].table.widths = [
         })
       })
     </script>
+  <script>
+     var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+     var commodity = document.getElementById("commodity");
+     var stock = document.getElementById("stock");
+     var comID =document.getElementById("comID")
+     var dateEX = document.getElementById("dateEX")
+    function goodData(id) {
+      axios.get(`/goods/${id}`)
+      .then((res)=>{
+        console.log(res.data);
+        commodity.value=`${res.data.name}`;
+        stock.value=`${res.data.quantity}`;
+        comID.value=`${res.data._id}`
+        dateEX.value =`${getFormattedDateIn(new Date(res.data.expiration))}`
+        
+
+       myModal.show();
+      })
+
+      
+    }
+    function updateGoods() {
+      axios.post(`/goods/${comID}`,{
+        name:commodity.value,
+        quantity:stock.value,
+        expiration:dateEX.value,
+        id:comID.value
+      }).then(()=>{
+        myModal.hide()
+      }).then(()=>{
+        window.location.reload();
+      })
+      
+    }
+  </script>

@@ -2,7 +2,7 @@
 
 
 <div class="row">
-    <input type="text" value="<%=person._id  %>" id="id"  >
+    <input type="text" value="<%=person._id  %>" id="id" style="display: none;" >
     <h1 class="text-center">Edit Information</h1>
     <div class="col-9 offset-2">
         <form action="/add" method="post">
@@ -48,8 +48,8 @@
             <div class="mb-3">
                 <label for="civilStatus" class="form-label">Civil Status</label>
                 <select name="civilStatus" id="civilStatus" class="form-select">
-                    <option selected>Open this select menu</option>
-                        <option value="single">Single</option>
+                    
+                        <option value="single" selected>Single</option>
                         <option name="married">married</option>
                         <option name="annulled">annulled</option>
                         <option name="widow">widow</option>

@@ -276,5 +276,21 @@ router.post('/edit/:id', isLoggedIn, async (req, res) => {
   });
   await person.family.push(...family);
   person.save();
+  res.send('ok');
+});
+
+router.get('/goods/:id', isLoggedIn, async (req, res) => {
+  const { id } = req.params;
+  const stock = await StockRecord.findById(id);
+  res.send(stock);
+});
+router.post('/goods/:id', async (req, res) => {
+  const { name, quantity, expiration, id } = req.body;
+  await StockRecord.findByIdAndUpdate(id, {
+    name: name,
+    expiration: new Date(expiration),
+    quantity: quantity,
+  });
+  res.send('ok');
 });
 module.exports = router;
