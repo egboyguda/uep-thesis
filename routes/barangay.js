@@ -26,6 +26,8 @@ router.post('/add', async (req, res) => {
     education,
     health,
     family,
+    birthday,
+    nickname,
   } = req.body;
   console.log(req.body);
   console.log(`${barangay.trim()}`);
@@ -41,11 +43,11 @@ router.post('/add', async (req, res) => {
     civilStatus: civilStatus,
     education: education,
     health: health,
+    bday: birthday,
+    nickname: nickname,
   });
-  user.family = await family;
-  console.log(user);
+  await user.family.push(...family);
   await user.save();
-
   res.send(user._id);
 });
 
@@ -146,4 +148,5 @@ router.post('/qrscan/:id', async (req, res) => {
   }
   res.send('ok');
 });
+
 module.exports = router;

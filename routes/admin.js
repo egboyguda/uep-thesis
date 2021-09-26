@@ -232,4 +232,49 @@ router.post('/account', isLoggedIn, isAdminL, async (req, res) => {
   }
   res.redirect('/account');
 });
+
+router.get('/edit/:id', isLoggedIn, async (req, res) => {
+  const barangays = await phil.getBarangayByMun('084815');
+  const { id } = req.params;
+  const person = await Person.findById(id);
+  console.log(person);
+  res.render('barangay/edit', { person, barangays });
+});
+
+router.post('/edit/:id', isLoggedIn, async (req, res) => {
+  const { id } = req.params;
+  const {
+    name,
+    barangay,
+    beneficiary,
+    contactNumber,
+    occupation,
+    income,
+    workplace,
+    civilStatus,
+    sector,
+    education,
+    health,
+    family,
+    birthday,
+    nickname,
+  } = req.body;
+  const person = await Person.findByIdAndUpdate(id, {
+    name: name,
+    sector: sector,
+    beneficiary: beneficiary,
+    contactNumber: contactNumber,
+    occupation: occupation,
+    income: income,
+    workplace: workplace,
+    nickname: nickname,
+    civilStatus: civilStatus,
+    education: education,
+    health: health,
+    bday: birthday,
+    barangay: barangay.trim(),
+  });
+  await person.family.push(...family);
+  person.save();
+});
 module.exports = router;

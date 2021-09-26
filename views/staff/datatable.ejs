@@ -23,7 +23,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Information</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" id="modal-body">
@@ -46,6 +46,7 @@
             <th>barangay</th>
             <th>Information</th>
             <th>Family member</th>
+            <th>Edit</th>
          
 	    </tr>
     </thead>
@@ -83,7 +84,12 @@
                             "data":null,
                             "bSortable": false,
                             "mRender": function (o) { return `<a href="/family/${o._id}" class='btn btn-success'>view</a>`; }
+                        }, {
+                            "data":null,
+                            "bSortable": false,
+                            "mRender": function (o) { return `<a href="/edit/${o._id}" class='btn btn-success'>edit</a>`; }
                         }
+
             
             
     				],

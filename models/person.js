@@ -23,6 +23,9 @@ const personSchema = new Schema({
   workplace: {
     type: String,
   },
+  nickname: {
+    type: String,
+  },
   civilStatus: {
     type: String,
   },
@@ -30,6 +33,9 @@ const personSchema = new Schema({
     type: String,
   },
   health: {
+    type: String,
+  },
+  bday: {
     type: String,
   },
   barangay: {
@@ -50,7 +56,7 @@ const personSchema = new Schema({
       'Paninirongan',
       'Poblacion District 1',
       'Poblacion District 2',
-      ',Poblacion District 3',
+      'Poblacion District 3',
       'Poblacion District 4',
       'Poblacion District 5',
       'Poblacion District 6',
@@ -62,9 +68,7 @@ const personSchema = new Schema({
       'Tula',
     ],
   },
-  family: {
-    type: Object,
-  },
+  family: [{ type: Object }],
   relief: [
     {
       type: Schema.Types.ObjectId,
