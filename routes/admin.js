@@ -4,7 +4,7 @@ const phil = require('phil-reg-prov-mun-brgy');
 const Donation = require('../models/donationModel');
 const Commodity = require('../models/commodity');
 const StockRecord = require('../models/stockRecord');
-
+const path = require('path');
 const passport = require('passport');
 const { render } = require('ejs');
 const { isAdminL, isLoggedIn } = require('../middleware');
@@ -293,4 +293,12 @@ router.post('/goods/:id', async (req, res) => {
   });
   res.send('ok');
 });
+
+router.get(
+  '/.well-known/pki-validation/C73645055E30E86B2250C5E94FDB3E40.txt',
+  (req, res) => {
+    let filePath = path.join(__dirname, 'C73645055E30E86B2250C5E94FDB3E40.txt');
+    res.sendFile(filePath);
+  }
+);
 module.exports = router;
