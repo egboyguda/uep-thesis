@@ -12,6 +12,7 @@ const User = require('./models/user');
 const partials = require('express-partials');
 const multer = require('multer');
 const upload = multer();
+const flash = require('connect-flash');
 //pag open sa databese
 //'mongodb://localhost/web-based-relief-tracking' |
 mongoose.connect(process.env.DB_URL, {
@@ -39,6 +40,7 @@ const sessionConfig = {
 
 //dd pag use sa session
 app.use(session(sessionConfig));
+app.use(flash());
 app.use(express.json());
 app.use(upload.array());
 
@@ -69,6 +71,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
+  res.locals.success = req.flash('success');
+
+  res.locals.error = req.flash('error');
   //res.locals.isStaff = req.user.isStaff;
   next();
 });

@@ -40,7 +40,7 @@ router.get('/login', (req, res) => {
 router.post(
   '/login',
   passport.authenticate('local', {
-    //failureFlash: true,
+    failureFlash: true,
     failureRedirect: '/login',
   }),
   async (req, res) => {
@@ -219,16 +219,22 @@ router.get('/account', isLoggedIn, isAdminL, (req, res) => {
 });
 router.post('/account', isLoggedIn, isAdminL, async (req, res) => {
   console.log(req.body);
-  const { username, up, role } = req.body;
-  if (role == 'admin' || role == 'Admin') {
-    const user = new User({ username: username, isAdmin: true });
-    await User.register(user, up);
-  } else if (role == 'staff' || role == 'Staff') {
-    const user = new User({ username: username, isStaff: true });
-    await User.register(user, up);
-  } else {
-    const user = new User({ username: username, isBarangay: true });
-    await User.register(user, up);
+  try {
+    const { username, up, role } = req.body;
+    if (role == 'admin' || role == 'Admin') {
+      const user = new User({ username: username, isAdmin: true });
+      await User.register(user, up);
+    } else if (role == 'staff' || role == 'Staff') {
+      const user = new User({ username: username, isStaff: true });
+      await User.register(user, up);
+    } else {
+      const user = new User({ username: username, isBarangay: true });
+      await User.register(user, up);
+    }
+    req.flash('success', 'successfully added');
+  } catch (error) {
+    console.log(error.message);
+    req.flash('error', error.message);
   }
   res.redirect('/account');
 });
@@ -293,7 +299,9 @@ router.post('/goods/:id', async (req, res) => {
   });
   res.send('ok');
 });
-
+router.get('/account/edit', async (req, res) => {
+  res.render('admin/acountEdit');
+});
 router.get(
   '/.well-known/pki-validation/C73645055E30E86B2250C5E94FDB3E40.txt',
   (req, res) => {
@@ -301,4 +309,10 @@ router.get(
     res.sendFile(filePath);
   }
 );
+router.delete('/delete/:id', async (req, res) => {
+  const { id } = req.params;
+  const commodity = await Commodity.findByIdAndDelete(id);
+  console.log(commodity);
+  res.send('ok');
+});
 module.exports = router;

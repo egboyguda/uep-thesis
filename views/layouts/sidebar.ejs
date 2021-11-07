@@ -29,6 +29,9 @@
       </nav>
 
       <main>
+      <% if(success !=null && error !=null){ %>
+        <%- include('../partials/flash.ejs') %> 
+        <% } %>  
         <%-body%> 
       </main>
 
@@ -52,23 +55,23 @@
           <h2>MNG</h2>
           <% if(currentUser.isAdmin) {%> 
             <div class="sidebar__link active_menu_link"">
-              <i class="fa fa-user-secret" aria-hidden="true"></i>
+              <i class="fa fa-desktop" aria-hidden="true"></i>
               <a href="/">Dashboard</a>
             </div>
           <div class="sidebar__link"">
-            <i class="" aria-hidden="true"></i>
+            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
             <a href="/add">Add Donation</a>
           </div>
           <div class="sidebar__link">
-            <i class="fa fa-building-o"></i>
+            <i class="fa fa-envelope-open"></i>
             <a href="/view">View Donation</a>
           </div>
           <div class="sidebar__link">
-            <i class="fa fa-building-o"></i>
+            <i class="fa fa-user-plus"></i>
             <a href="/account">Add Account</a>
           </div>
           <div class="sidebar__link">
-            <i class="fa ffa fa-bus "></i>
+            <i class="fa fa-camera"></i>
             <a href="/barangay/track">Scan QRCode</a>
           </div>
           <div class="sidebar__link">
@@ -76,7 +79,7 @@
             <a href="/stock">View Stock</a>
           </div>
           <div class="sidebar__link">
-            <i class="fa fa-wrench"></i>
+            <i class="fa fa-search"></i>
             <a href="/track">Track Relief Goods</a>
           </div>
           <div class="sidebar__link">
@@ -86,27 +89,27 @@
           
         <% }else if(currentUser.isStaff){ %> 
           <div class="sidebar__link active_menu_link"">
-            <i class="fa fa-user-secret" aria-hidden="true"></i>
+            <i class="fa fa-desktop" aria-hidden="true"></i>
             <a href="/">Dashboard</a>
           </div>
           <div class="sidebar__link"">
-            <i class="fa fa-user-secret" aria-hidden="true"></i>
+            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
             <a href="/add">Add Donation</a>
           </div>
           <div class="sidebar__link">
-            <i class="fa fa-building-o"></i>
+            <i class="fa fa-envelope-open"></i>
             <a href="/view">View Donation</a>
           </div>
           <div class="sidebar__link "">
-            <i class="fa fa-user-secret" aria-hidden="true"></i>
+            <i class="fa fa-database" aria-hidden="true"></i>
             <a href="/stock">Stock</a>
           </div>
           <div class="sidebar__link">
-            <i class="fa fa-handshake-o"></i>
+            <i class="fa fa-paper-plane"></i>
             <a href="/staff/send">Send Goods To Barangay</a>
           </div>
           <div class="sidebar__link">
-            <i class="fa fa-handshake-o"></i>
+            <i class="fa fa-file-text-o"></i>
             <a href="/staff/transaction">Transactions</a>
           </div>
           <div class="sidebar__link">
@@ -114,7 +117,7 @@
             <a href="/staff/household">Household</a>
           </div>
           <div class="sidebar__link">
-            <i class="fa fa-handshake-o"></i>
+            <i class="fa fa-user-plus"></i>
             <a href="/barangay/add">Add Household</a>
           </div>
           
@@ -125,15 +128,15 @@
             </div>
             
             <div class="sidebar__link">
-              <i class="fa fa-question"></i>
+              <i class="fa fa-user-plus"></i>
               <a href="/barangay/add">Add Household</a>
             </div>
             <div class="sidebar__link">
-              <i class="fa fa-sign-out"></i>
+              <i class="fa fa-cart-arrow-down"></i>
               <a href="/barangay/relief">Add Relief</a>
             </div>
             <div class="sidebar__link">
-              <i class="fa ffa fa-bus "></i>
+              <i class="fa fa-camera "></i>
               <a href="/barangay/track">Scan QRCode</a>
             </div>
             <div class="sidebar__link">

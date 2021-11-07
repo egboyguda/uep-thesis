@@ -42,14 +42,14 @@
             </div>  
             <div class="mb-3">
                 <label for="date" class="form-label">Birthday</label>
-                <input type="date" name=birthday" id="date" class="form-control">
+                <input type="date" name=birthday" id="date" class="form-control" onchange="handler();"/>
                 <label for="age" class="form-label">Age</label>
-                <input type="number" name=birthday" id="age" class="form-control">
+                <input type="text" name=birthday" id="age" class="form-control" readonly>
             </div>      
             <div class="mb-3">
                 <label for="civilStatus" class="form-label">Civil Status</label>
                 <select name="civilStatus" id="civilStatus" class="form-select">
-                    <option selected>Open this select menu</option>
+                    
                         <option value="single">Single</option>
                         <option name="married">married</option>
                         <option name="annulled">annulled</option>
@@ -64,7 +64,7 @@
                 <div class="mb-3">
                     <label for="barangay" class="form-label">Barangay</label>
                     <select name="destination" id="barangay" class="form-select">
-                        <option selected>Open this select barangay</option>
+                       
                         <% for(barangay of barangays) {%>
                             <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
                             <% } %>  
@@ -80,7 +80,7 @@
                 <div class="mb-3">
                     <label for="barangay" class="form-label">Barangay</label>
                     <select name="destination" id="barangay" class="form-select">
-                        <option selected>Open this select barangay</option>
+                   
                         <% for(barangay of barangays) {%>
                             <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
                             <% } %>  
@@ -89,7 +89,7 @@
                 <div class="mb-3">
                     <label for="sector" class="form-label">Sector</label>
                     <select name="sector" id="sector" class="form-select">
-                        <option selected>Open this select menu</option>
+                        <option selected>N/A</option>
                             <option value="nakakatanda">Nakakatanda</option>
                             <option name="buntis">Buntis</option>
                             <option name="nagpapasusong ina">Nag Papasusong ina</option>
@@ -100,7 +100,7 @@
                 <div class="mb-3">
                     <label for="education" class="form-label">Highest Educational Attainment</label>
                     <select name="education" id="education" class="form-select">
-                        <option selected>Open this select menu</option>
+                        
                             <option value="Elementary">Elementary</option>
                             <option name="highschool">High School</option>
                             <option name="college">College</option>
@@ -110,7 +110,7 @@
                     <div class="mb-3">
                         <label for="health" class="form-label">Health Condition</label>
                         <select name="health" id="health" class="form-select">
-                            <option selected>Open this select menu</option>
+                            <option selected>N/A</option>
                                 <option value="sakit sa puso">Sakit sa puso</option>
                                 <option name="altapresyun">Altapresyun</option>
                                 <option name="sakit sa baga">Sakit sa Baga</option>
@@ -188,7 +188,7 @@
                                 <div class="mb-3">
                                     <label for="fcivilStatus" class="form-label">Civil Status</label>
                                     <select name="civilStatus" id="fcivilStatus" class="form-select">
-                                        <option selected>Open this select menu</option>
+                                        
                                             <option value="single">Single</option>
                                             <option name="married">married</option>
                                             <option name="annulled">annulled</option>
@@ -260,6 +260,28 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+    
+    //var age1 = document.getElementById('age').value;
+    function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
+function handler(e){
+    //alert("asda")
+    //alert(getAge(famBday))
+    //alert(famBday)
+    //console.log(famBday)
+    //console.log(document.getElementById("date").value)
+  document.getElementById("age").value=`${getAge(document.getElementById('date').value)}`;
+
+}
+
         class Person{
             constructor(name,relation,bday,gender,educ,health,sector,nickName,occupation){
                 this.name =name;
@@ -285,6 +307,7 @@
                var fhealth = document.getElementById('fhealth').value
                var nickName = document.getElementById('nickName').value;
                var foccupation = document.getElementById('foccupation').value
+               var fcivilStatus = document.getElementById("fcivilStatus").value
                
                
          
@@ -292,7 +315,10 @@
               
                var table = document.getElementById('results');
 
-                var row = table.insertRow(-1);
+               
+                
+                if(fname !=="" && relation !=="" && famBday !=="" && fgender !=="" && foccupation !=="" && fcivilStatus !==""){
+                    var row = table.insertRow(-1);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
                 var cell3 = row.insertCell(2);
@@ -302,9 +328,7 @@
                 var cell7 = row.insertCell(6);
                 var cell8 = row.insertCell(7);
             
-                
-
-                cell1.innerHTML = `<input type=\"text\" name=\"fname\" value=\"${fname}\" readonly=\"readonly\">`;
+                    cell1.innerHTML = `<input type=\"text\" name=\"fname\" value=\"${fname}\" readonly=\"readonly\">`;
                 cell2.innerHTML = `<input type=\"text\" name=\"famBday\" value=\"${relation}\" readonly=\"readonly\">`;
                 cell3.innerHTML =`<input type=\"text\" name=\"relation\" value=\"${famBday}\" readonly=\"readonly\">`;
                 cell4.innerHTML =`<input type=\"text\" name=\"relation\" value=\"${fgender}\" readonly=\"readonly\">`;
@@ -314,6 +338,10 @@
                //data.push(new Commodity(commodityName,units,quantity))
                //table.innerHTML+="tr"
                 family.push(new Person(fname,relation,famBday,fgender,feduc,fhealth,fsector,nickName,foccupation))
+                }else{
+                    alert("complete the form before submitting")
+                }
+               
                
            };
            
@@ -328,16 +356,15 @@
                var occupation = document.getElementById('occupation').value
                var income =document.getElementById('income').value
                var workplace = document.getElementById('workplace').value
-             var birthday = document.getElementById('date').value
+               var birthday = document.getElementById('date').value
              var civilStatus = document.getElementById('civilStatus').value
              var barangay = document.getElementById('barangay').value
              var sector =document.getElementById('sector').value
              var education = document.getElementById('education').value
              var health = document.getElementById('health').value
 
-             
-
-               axios.post('/barangay/add',{
+             if(beneficiary!=="" && lastname !=="" && barangay !==""&& firstname !=="" && middlename !=="" && occupation !=="" && birthday !=="" && civilStatus !=="" && age !=="" && education !==""){
+                axios.post('/barangay/add',{
                    name:lastname +" "+ firstname +" " +middlename +" " +suffix,
                    barangay:barangay,
                    beneficiary:beneficiary,
@@ -360,5 +387,10 @@
                    window.location= `/barangay/success/${respond.data}`
 
                })
+             }else{
+                 alert("please fill up the form")
+             }
+
+            
            }
     </script>

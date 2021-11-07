@@ -105,6 +105,7 @@
 
                
                 var table = document.getElementById('results');
+                if(commodityName !==""&& units !=="" && quantity !=="" && expiration !== ""){
 
                  var row = table.insertRow(-1);
                  var cell1 = row.insertCell(0);
@@ -118,6 +119,11 @@
                 data.push(new Commodity(commodityName,units,quantity,expiration))
                 //table.innerHTML+="tr"
 
+                }else{
+alert("please complete the form")
+                }
+
+
                 
             };
 
@@ -130,7 +136,8 @@
                 var row = table.insertRow(-1);
                  var cell1 = row.insertCell(0);
                  var cell2 = row.insertCell(1);
-                axios.post('/add',{
+                 if(name !==""&& arrivalDate !== ""&& acceptName !=="" && calamity !=="" &&data.length !==0){
+                    axios.post('/add',{
                     name: name,
                     arrivalDate:arrivalDate,
                     acceptName:acceptName,
@@ -141,6 +148,10 @@
                     alert('successfully send')
                     location.reload()
                 })
+                 }else{
+                     alert("please complete the form")
+                 }
+               
                 
             }
 

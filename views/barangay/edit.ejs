@@ -63,7 +63,7 @@
                 <div class="mb-3">
                     <label for="barangay" class="form-label">Barangay</label>
                     <select name="destination" id="barangay" class="form-select">
-                        <option selected>Open this select barangay</option>
+                        
                         <% for(barangay of barangays) {%>
                             <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
                             <% } %>  
@@ -79,7 +79,7 @@
                 <div class="mb-3">
                     <label for="barangay" class="form-label">Barangay</label>
                     <select name="destination" id="barangay" class="form-select">
-                        <option selected>Open this select barangay</option>
+                    
                         <% for(barangay of barangays) {%>
                             <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
                             <% } %>  
@@ -88,7 +88,7 @@
                 <div class="mb-3">
                     <label for="sector" class="form-label">Sector</label>
                     <select name="sector" id="sector" class="form-select">
-                        <option selected>Open this select menu</option>
+                        <option selected>N/A</option>
                             <option value="nakakatanda">Nakakatanda</option>
                             <option name="buntis">Buntis</option>
                             <option name="nagpapasusong ina">Nag Papasusong ina</option>
@@ -99,7 +99,7 @@
                 <div class="mb-3">
                     <label for="education" class="form-label">Highest Educational Attainment</label>
                     <select name="education" id="education" class="form-select">
-                        <option selected>Open this select menu</option>
+                        <option selected>N/A</option>
                             <option value="Elementary">Elementary</option>
                             <option name="highschool">High School</option>
                             <option name="college">College</option>
@@ -109,7 +109,7 @@
                     <div class="mb-3">
                         <label for="health" class="form-label">Health Condition</label>
                         <select name="health" id="health" class="form-select">
-                            <option selected>Open this select menu</option>
+                            <option selected>N/A</option>
                                 <option value="sakit sa puso">Sakit sa puso</option>
                                 <option name="altapresyun">Altapresyun</option>
                                 <option name="sakit sa baga">Sakit sa Baga</option>
@@ -187,7 +187,7 @@
                                 <div class="mb-3">
                                     <label for="fcivilStatus" class="form-label">Civil Status</label>
                                     <select name="civilStatus" id="fcivilStatus" class="form-select">
-                                        <option selected>Open this select menu</option>
+                                        
                                             <option value="single">Single</option>
                                             <option name="married">married</option>
                                             <option name="annulled">annulled</option>
@@ -290,7 +290,7 @@
 
               
                var table = document.getElementById('results');
-
+               if(fname !=="" && relation !=="" && famBday !=="" && fgender !=="" && foccupation !=="" && fcivilStatus !==""){
                 var row = table.insertRow(-1);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
@@ -313,7 +313,9 @@
                //data.push(new Commodity(commodityName,units,quantity))
                //table.innerHTML+="tr"
                 family.push(new Person(fname,relation,famBday,fgender,feduc,fhealth,fsector,nickName,foccupation))
-               
+               }else{
+                   alert("complete the form before submitting")
+               }
            };
            
            function sendData(){
@@ -336,7 +338,7 @@
              var id = document.getElementById("id").value
 
              console.log(family)
-
+             if(beneficiary!=="" && lastname !=="" && barangay !==""&& firstname !=="" && middlename !=="" && occupation !=="" && birthday !=="" && civilStatus !=="" && age !=="" && education !==""){
                axios.post(`/edit/${id}`,{
                    name:lastname +" "+ firstname +" " +middlename +" " +suffix,
                    barangay:barangay,
@@ -356,9 +358,12 @@
 
                    
                }).then((respond)=>{
-                   console.log(respond.data)
-                   window.location= `/barangay/success/${respond.data}`
+                   alert("successfuly edited")
+                   //console.log(respond.data)
+                   window.location.replace("/");
 
                })
-           }
+           }else{
+               alert("complete the form before submiting")
+           }}
     </script>

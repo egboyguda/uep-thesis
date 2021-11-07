@@ -11,7 +11,7 @@
         <th >Calamity</th>
         <th >Arrival Date</th>
         <th>Acceptance Name</th>
-      
+      <th>Remove</th>
     </thead>
 
   </table>
@@ -61,7 +61,13 @@
              
               {
                'data':'acceptName'
-             }
+             },{
+              'data':null,
+              "bSortable":false,
+              "mRender":function(o){
+                return `<span class="btn btn-danger" onclick=dateDel("${o._id}");>`+"remove"+'</span>'
+              }
+            },
              
            ],
            buttons: [
@@ -87,4 +93,12 @@ doc.content[1].table.widths = [
        })
      })
    </script>
- 
+ <script>
+   function  dateDel(id) {
+     axios.delete(`/delete/${id}`)
+     .then(()=>{
+       location.reload();
+     })
+     
+   }
+ </script>
