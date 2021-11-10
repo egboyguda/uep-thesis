@@ -149,84 +149,87 @@
                         </div>
                         </div> 
                         <h1 class="text-center">Family Member</h1>
-                        <div class="mb-3">
-                            <label for="fname" class="form-label">Name</label>
-                            <input type="text" id="fname" class="form-control">
-                        </div> 
-                        <div class="mb-3">
-                            <label for="fname" class="form-label">Suffix</label>
-                            <input type="text" name="name" id="fsuffix" class="form-control">
-                        </div> 
-                        <div class="mb-3">
-                            <label for="nickName" class="form-label">Nickname</label>
-                            <input type="text" name="nickName" id="nickName" class="form-control">
-                        </div> 
-                        <div class="mb-3">
-                            <label for="relation" class="form-label">Relation</label>
-                            <input type="text" id="relation" class="form-control">
-                        </div> 
-                        <div class="mb-3">
-                            <label for="famBday" class="form-label">Birthday</label>
-                            <input type="date" name=famBday" id="famBday" class="form-control">
-                      
-                        </div>  
-                       
-                        </div>
-                        <div class="mb-3">
-                            <label for="fgender" class="form-label">Gender</label>
-                            <select id="fgender" class="form-select">
-                                
-                                    <option value="male" selected>male</option>
-                                    <option value="female">female</option> 
-                            </select>
-                            </div>
+                        <form action="" id="form2" name="form2">
                             <div class="mb-3">
-                                <label for="foccupation" class="form-label">Occupation</label>
-                                <input type="text" id="foccupation" class="form-control">
+                                <label for="fname" class="form-label">Name</label>
+                                <input type="text" id="fname" class="form-control">
                             </div> 
                             <div class="mb-3">
+                                <label for="fname" class="form-label">Suffix</label>
+                                <input type="text" name="name" id="fsuffix" class="form-control">
+                            </div> 
+                            <div class="mb-3">
+                                <label for="nickName" class="form-label">Nickname</label>
+                                <input type="text" name="nickName" id="nickName" class="form-control">
+                            </div> 
+                            <div class="mb-3">
+                                <label for="relation" class="form-label">Relation</label>
+                                <input type="text" id="relation" class="form-control">
+                            </div> 
+                            <div class="mb-3">
+                                <label for="famBday" class="form-label">Birthday</label>
+                                <input type="date" name=famBday" id="famBday" class="form-control">
+                          
+                            </div>  
+                           
+                            </div>
+                            <div class="mb-3">
+                                <label for="fgender" class="form-label">Gender</label>
+                                <select id="fgender" class="form-select">
+                                    
+                                        <option value="male" selected>male</option>
+                                        <option value="female">female</option> 
+                                </select>
+                                </div>
                                 <div class="mb-3">
-                                    <label for="fcivilStatus" class="form-label">Civil Status</label>
-                                    <select name="civilStatus" id="fcivilStatus" class="form-select">
-                                        
-                                            <option value="single">Single</option>
-                                            <option name="married">married</option>
-                                            <option name="annulled">annulled</option>
-                                            <option name="widow">widow</option>
+                                    <label for="foccupation" class="form-label">Occupation</label>
+                                    <input type="text" id="foccupation" class="form-control">
+                                </div> 
+                                <div class="mb-3">
+                                    <div class="mb-3">
+                                        <label for="fcivilStatus" class="form-label">Civil Status</label>
+                                        <select name="civilStatus" id="fcivilStatus" class="form-select">
+                                            
+                                                <option value="single">Single</option>
+                                                <option name="married">married</option>
+                                                <option name="annulled">annulled</option>
+                                                <option name="widow">widow</option>
+                                        </select>
+                                        </div>
+                                    <label for="fsector" class="form-label">Sector</label>
+                                    <select name="fsector" id="fsector" class="form-select">
+                                        <option selected>N/A</option>
+                                            <option name="nakakatanda">Nakakatanda</option>
+                                            <option name="buntis">Buntis</option>
+                                            <option name="nagpapasusong ina">Nag Papasusong ina</option>
+                                            <option name="solo parent">Solo Parent</option>
+                                            <option name="walang tirahan">Walang Tirahan</option>
                                     </select>
                                     </div>
-                                <label for="fsector" class="form-label">Sector</label>
-                                <select name="fsector" id="fsector" class="form-select">
-                                    <option selected>N/A</option>
-                                        <option name="nakakatanda">Nakakatanda</option>
-                                        <option name="buntis">Buntis</option>
-                                        <option name="nagpapasusong ina">Nag Papasusong ina</option>
-                                        <option name="solo parent">Solo Parent</option>
-                                        <option name="walang tirahan">Walang Tirahan</option>
-                                </select>
-                                </div>
-                            <div class="mb-3">
-                                <label for="feduc" class="form-label">Highest Educational Attainment</label>
-                                <select name="feduc" id="feduc" class="form-select">
-                                   
-                                        <option value="Elementary" selected>Elementary</option>
-                                        <option name="highschool">High School</option>
-                                        <option name="college">College</option>
-                                       
-                                </select>
-                                </div>
                                 <div class="mb-3">
-                                    <label for="fhealth" class="form-label">Health Condition</label>
-                                    <select name="fhealth" id="fhealth" class="form-select">
-                                        <option selected>N/A</option>
-                                            <option value="sakit sa puso">Sakit sa puso</option>
-                                            <option name="altapresyun">Altapresyun</option>
-                                            <option name="sakit sa baga">Sakit sa Baga</option>
-                                            <option name="diyabetis">Diyabetis</option>
-                                            <option name="kanser">Kanser</option>
+                                    <label for="feduc" class="form-label">Highest Educational Attainment</label>
+                                    <select name="feduc" id="feduc" class="form-select">
+                                       
+                                            <option value="Elementary" selected>Elementary</option>
+                                            <option name="highschool">High School</option>
+                                            <option name="college">College</option>
                                            
                                     </select>
-                                </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="fhealth" class="form-label">Health Condition</label>
+                                        <select name="fhealth" id="fhealth" class="form-select">
+                                            <option selected>N/A</option>
+                                                <option value="sakit sa puso">Sakit sa puso</option>
+                                                <option name="altapresyun">Altapresyun</option>
+                                                <option name="sakit sa baga">Sakit sa Baga</option>
+                                                <option name="diyabetis">Diyabetis</option>
+                                                <option name="kanser">Kanser</option>
+                                               
+                                        </select>
+                                    </div>
+                        </form>
+                       
                             <input type="button" value="Add" class="btn btn-success" onClick="updateForm();">
                             <h1 class="text-center">Family List</h1>
                             <table class="table" id='results' name='table'>
@@ -308,6 +311,7 @@ function handler(e){
                var nickName = document.getElementById('nickName').value;
                var foccupation = document.getElementById('foccupation').value
                var fcivilStatus = document.getElementById("fcivilStatus").value
+
                
                
          
@@ -338,6 +342,20 @@ function handler(e){
                //data.push(new Commodity(commodityName,units,quantity))
                //table.innerHTML+="tr"
                 family.push(new Person(fname,relation,famBday,fgender,feduc,fhealth,fsector,nickName,foccupation))
+                
+                //document.form2.reset();
+                document.getElementById('fname').value = ""
+                document.getElementById('relation').value=""
+                document.getElementById('famBday').value="",
+                document.getElementById('fgender').value="",
+                document.getElementById("fsector").value=""
+                document.getElementById("feduc").value=""
+                document.getElementById("fhealth").value=""
+                document.getElementById("nickName").value=""
+                document.getElementById("foccupation").value=""
+                document.getElementById("fcivilStatus").value=""    
+                document.getElementById("fsuffix").value=""
+               
                 }else{
                     alert("complete the form before submitting")
                 }

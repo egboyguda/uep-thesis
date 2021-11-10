@@ -335,7 +335,19 @@ function handler(e){
                 cell7.innerHTML =`<input type=\"text\" name=\"relation\" value=\"${fhealth}\" readonly=\"readonly\">`;
                //data.push(new Commodity(commodityName,units,quantity))
                //table.innerHTML+="tr"
+               
                 family.push(new Person(fname,relation,famBday,fgender,feduc,fhealth,fsector,nickName,foccupation))
+                document.getElementById('fname').value = ""
+                document.getElementById('relation').value=""
+                document.getElementById('famBday').value="",
+                document.getElementById('fgender').value="",
+                document.getElementById("fsector").value=""
+                document.getElementById("feduc").value=""
+                document.getElementById("fhealth").value=""
+                document.getElementById("nickName").value=""
+                document.getElementById("foccupation").value=""
+                document.getElementById("fcivilStatus").value=""    
+                document.getElementById("fsuffix").value=""
                 }else{
                     alert("please fill up the form")
                 }
@@ -382,6 +394,19 @@ function handler(e){
                    
                }).then((respond)=>{
                    console.log(respond.data)
+                   name='',
+                   barangay="",
+                   birthday=""
+                   contactNumber="",
+                   occupation="",
+                   income="",
+                   workplace="",
+                   birthday=""
+                   sector=""
+                   education=""
+                   health=""
+                   family=[],
+
                    window.location= `/barangay/success/${respond.data}`
 
                })
