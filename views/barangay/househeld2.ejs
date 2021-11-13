@@ -59,7 +59,7 @@
                 <h3>Permanent Address</h3>
                 <div class="mb-3">
                     <label for="name" class="form-label">Municipal</label>
-                    <input type="text" name="name" id="lastname" class="form-control">
+                    <input type="text" name="name" id="lastname" value="pambujan" class="form-control" readonly>
                 </div> 
                 <div class="mb-3">
                     <label for="barangay" class="form-label">Barangay</label>
@@ -74,8 +74,12 @@
                     
                     <h3>Temporary Address</h3>
                     <div class="mb-3">
-                        <label for="name" class="form-label">Municipal</label>
-                        <input type="text" name="name" id="lastname" class="form-control">
+                        <label for="tempAdd" class="form-label">Municipal</label>
+                        <select name="tempMun" id="tempAdd" class="form-select">
+                            <% for(mun of municipal){ %>
+                                <option value="<%=mun.mun_code%>"><%=mun.name%></option> 
+                                <% } %> 
+                        </select>
                     </div> 
                 <div class="mb-3">
                     <label for="barangay" class="form-label">Barangay</label>
@@ -261,7 +265,9 @@
     
         </form>
     </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/add.js"></script>
     <script>
     
     //var age1 = document.getElementById('age').value;

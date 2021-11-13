@@ -126,14 +126,14 @@ doc.content[1].table.widths = [
   //footer.innerHTML=``
   function update(id){
   var pass =document.getElementById("password").value;
-  var account =document.getElementById("account").value
+  //var account =document.getElementById("account").value
     
     if(pass!==""){
       console.log(pass)
       axios.patch('/edite',{
       id:id,
       password:pass,
-      account:account,
+      //account:account,
       
     }).then((res)=>{
       alert("successfully saved")

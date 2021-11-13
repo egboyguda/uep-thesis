@@ -12,6 +12,7 @@ const User = require('../models/user');
 const { find } = require('../models/donationModel');
 const Relief = require('../models/relief');
 const Person = require('../models/person');
+const { route } = require('./barangay');
 
 // router.get('/fake', async (req, res) => {
 //   const user = new User({ username: 'test3', isBarangay: true });
@@ -20,14 +21,23 @@ const Person = require('../models/person');
 // });
 router.get('/househeld2', async (req, res) => {
   const barangays = await phil.getBarangayByMun('084815');
-  res.render('barangay/househeld2', { barangays });
+  //console.log(phil.provinces);
+  const municipal = await phil.getCityMunByProvince('0848');
+  //console.log(municipal);
+  res.render('barangay/househeld2', { barangays, municipal });
 });
+//dd pag kuwa barangay sa municipal
+
 router.get('/logout', (req, res) => {
   req.logOut();
 
   res.redirect('/login');
 });
-
+router.get('/barcode/:id', async (req, res) => {
+  const { id } = req.params;
+  const barangay = await phil.getBarangayByMun(id);
+  res.send(barangay);
+});
 router.get('/family/:id', isLoggedIn, async (req, res) => {
   const id = req.params.id;
   const person = await Person.findById(id);
