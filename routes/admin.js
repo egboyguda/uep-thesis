@@ -150,12 +150,12 @@ router.get('/stock', async (req, res) => {
 });
 
 // api sa inventory
-router.get('/api/stock', async (req, res) => {
+router.get('/api/stock', isLoggedIn, async (req, res) => {
   const stock = await StockRecord.find({});
   res.send(stock);
 });
 //dd pag track sa relief
-router.get('/track', async (req, res) => {
+router.get('/track', isLoggedIn, async (req, res) => {
   const barangays = await phil.getBarangayByMun('084815');
   res.render('admin/track', { barangays });
 });
@@ -186,7 +186,7 @@ router.get('/track/relief', async (req, res) => {
   res.send(person);
 });
 //dd pag kuwa kun cn o wara pakakuwa relief
-router.get('/track/:barangay', async (req, res) => {
+router.get('/track/:barangay', isLoggedIn, async (req, res) => {
   const barangay = req.params.barangay;
   const data = await Relief.find({
     $and: [
@@ -208,7 +208,7 @@ router.get('/track/:barangay', async (req, res) => {
 
 //dd man pag imud kun pera na an tawo na nakakarawat
 
-router.get('/track/relief/:id', async (req, res) => {
+router.get('/track/relief/:id', isLoggedIn, async (req, res) => {
   const { id } = req.params;
   const relief = await Relief.findById(id);
   console.log('called');
@@ -299,8 +299,13 @@ router.post('/goods/:id', async (req, res) => {
   });
   res.send('ok');
 });
-router.get('/account/edit', async (req, res) => {
+router.get('/account/edit', isLoggedIn, async (req, res) => {
+  //const user = await User.find({});
   res.render('admin/acountEdit');
+});
+router.get('/api/user', async (req, res) => {
+  const user = await User.find({});
+  res.send(user);
 });
 router.get(
   '/.well-known/pki-validation/C73645055E30E86B2250C5E94FDB3E40.txt',
@@ -314,5 +319,20 @@ router.delete('/delete/:id', async (req, res) => {
   const commodity = await Commodity.findByIdAndDelete(id);
   console.log(commodity);
   res.send('ok');
+});
+router.patch('/edite', async (req, res) => {
+  console.log(req.body);
+  const { id, password, account } = req.body;
+  const user = await User.findById(id);
+
+  console.log(user);
+  await user.setPassword(password, function (err, user) {
+    if (err) {
+      res.send('error');
+    } else {
+      user.save();
+      res.send('ok');
+    }
+  });
 });
 module.exports = router;

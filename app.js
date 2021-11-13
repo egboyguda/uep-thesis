@@ -13,6 +13,7 @@ const partials = require('express-partials');
 const multer = require('multer');
 const upload = multer();
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 //pag open sa databese
 //'mongodb://localhost/web-based-relief-tracking' |
 mongoose.connect(process.env.DB_URL, {
@@ -65,7 +66,7 @@ app.engine('ejs', ejsMate);
 //static file
 //mga js an css
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(methodOverride('_method'));
 //dd pag handle sa form tkang sa request
 app.use(express.urlencoded({ extended: true }));
 
