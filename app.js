@@ -67,6 +67,7 @@ app.engine('ejs', ejsMate);
 //mga js an css
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
+
 //dd pag handle sa form tkang sa request
 app.use(express.urlencoded({ extended: true }));
 
@@ -85,6 +86,10 @@ const barangayRoutes = require('./routes/barangay');
 app.use('/barangay', barangayRoutes);
 app.use('/', adminRoutes);
 app.use('/staff', staffRoutes);
+
+app.get('*', function (req, res) {
+  res.render('404.ejs');
+});
 
 app.listen(PORT, () => {
   console.log('app is running');

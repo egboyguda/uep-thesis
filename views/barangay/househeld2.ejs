@@ -82,13 +82,8 @@
                         </select>
                     </div> 
                 <div class="mb-3">
-                    <label for="barangay" class="form-label">Barangay</label>
-                    <select name="destination" id="barangay" class="form-select">
-                   
-                        <% for(barangay of barangays) {%>
-                            <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
-                            <% } %>  
-                    </select>
+                    <label for="barangayTemp" class="form-label">Barangay</label>
+                    <select name="destination" id="barangayTemp" class="form-select"></select>
                     <hr>
                 <div class="mb-3">
                     <label for="sector" class="form-label">Sector</label>
