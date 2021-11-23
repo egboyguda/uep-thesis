@@ -1,5 +1,7 @@
 var municipal = document.getElementById('tempAdd');
 var barangay = document.getElementById('barangayTemp');
+var oBarangay = document.getElementById('barangay');
+var oMun = document.getElementById('mun');
 call();
 
 function call() {
@@ -11,6 +13,14 @@ function call() {
       removeOptions(barangay);
       for (data of res.data) {
         loop(data.name, data.name, barangay);
+      }
+    });
+  });
+  oMun.addEventListener('input', function () {
+    axios.get(`/barcode/${this.value}`).then((res) => {
+      removeOptions(oBarangay);
+      for (data of res.data) {
+        loop(data.name, data.name, oBarangay);
       }
     });
   });

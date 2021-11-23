@@ -41,6 +41,7 @@
         <th >Stock Available</th>
         <th>Expiration</th>
         <th>Edit</th>
+        <th>Remove</th>
         
       </tr>
     </thead>
@@ -48,8 +49,10 @@
   </table>
   
   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
@@ -84,29 +87,38 @@ function getFormattedDateIn(date) {
                 return '<span>'+o.quantity+" "+o.units+'</span>'
               }
             },{
-              'data':null,
-              "bSortable":false,
-              "mRender":function(o){
-                return '<span>'+ getFormattedDate(new Date(o.expiration))+'</span>'
-              }
+              'data':'expiration',
+              
+              "render": function(d) {
+                    return moment(d).format("MM/DD/YYYY");
+                }
             },{
               'data':null,
               "bSortable":false,
               "mRender":function(o){
                 return `<button class="btn btn-success" onclick=goodData("${o._id}");>edit</button>`
-              }
+              },
+            },
+            {
+              'data':null,
+              "bSortable":false,
+              "mRender":function(o){
+                return `<button class="btn btn-danger" onclick=deleteGood("${o._id}");>delete</button>`
+              },
             },
           
             ],
             buttons: [
             {
                 extend: 'pdfHtml5', 
-              
+                exportOptions: {
+                    columns: [ 0,1, 2 ]
+                },
                 download: 'open',
 
                 customize: function ( doc ) {
 doc.content[1].table.widths = [
-'25%',
+'50%',
 '25%',
 '25%',
 '25%',
@@ -154,5 +166,15 @@ doc.content[1].table.widths = [
         window.location.reload();
       })
       
+    }
+  </script>
+  <script>
+    function deleteGood(id){
+      axios.delete(`/stock/${id}`)
+      .then((res)=>{
+        console.log(res.data)
+        alert("deleted")
+        window.location.reload();
+      })
     }
   </script>

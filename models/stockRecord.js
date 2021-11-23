@@ -8,7 +8,6 @@ const stockRecordSchema = new Schema({
 
   units: {
     type: String,
-    enum: ['kg', 'pcs'],
   },
   quantity: {
     type: Number,

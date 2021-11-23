@@ -58,20 +58,22 @@
                 </div>
                 <h3>Permanent Address</h3>
                 <div class="mb-3">
-                    <label for="name" class="form-label">Municipal</label>
-                    <input type="text" name="name" id="lastname" value="pambujan" class="form-control" readonly>
+                    <label for="mun" class="form-label">Municipal</label>
+                    <select name="" id="mun" class="form-select">
+                    <% for(mun of municipal){ %>
+                        <option value="<%=mun.mun_code%>"><%=  mun.name%></option> 
+                        <% } %> 
+                    </select>
                 </div> 
                 <div class="mb-3">
                     <label for="barangay" class="form-label">Barangay</label>
                     <select name="destination" id="barangay" class="form-select">
                        
-                        <% for(barangay of barangays) {%>
-                            <option value="<%= barangay.name%> "><%=barangay.name%>  </option>
-                            <% } %>  
+                      
                     </select>
             
                     <hr>
-                    
+                
                     <h3>Temporary Address</h3>
                     <div class="mb-3">
                         <label for="tempAdd" class="form-label">Municipal</label>
@@ -100,9 +102,12 @@
                     <label for="education" class="form-label">Highest Educational Attainment</label>
                     <select name="education" id="education" class="form-select">
                         
-                            <option value="Elementary">Elementary</option>
-                            <option name="highschool">High School</option>
-                            <option name="college">College</option>
+                        <option value="Elementary level">Elementary Level</option>
+                        <option name="highschool level">High School Level</option>
+                        <option name="college level">College Level</option>
+                        <option value="highschool graduate">Highschool Graduate</option>
+                        <option value="college graduate">College Graduate</option>
+                        <option value="Vocational graduate">Vocational Graduate</option>
                            
                     </select>
                     </div>
@@ -147,7 +152,7 @@
                             </label>
                         </div>
                         </div> 
-                        <h1 class="text-center">Family Member</h1>
+                        <h1 class="text-center">HOUSEHOLD MEMBER</h1>
                         <form action="" id="form2" name="form2">
                             <div class="mb-3">
                                 <label for="fname" class="form-label">Name</label>
@@ -234,7 +239,7 @@
                             <table class="table" id='results' name='table'>
                                 <thead>
                                   <tr>
-                                    <th scope="col">Family Member</th>
+                                    <th scope="col">HOUSEHOLD Member</th>
                             
                                     <th scope="col">Family Relationship</th>
                                     <th scope="col">Birthday</th>
@@ -349,12 +354,12 @@ function handler(e){
                 document.getElementById('relation').value=""
                 document.getElementById('famBday').value="",
                 document.getElementById('fgender').value="",
-                document.getElementById("fsector").value=""
+                //document.getElementById("fsector").value=""
                 document.getElementById("feduc").value=""
-                document.getElementById("fhealth").value=""
+                //document.getElementById("fhealth").value=""
                 document.getElementById("nickName").value=""
                 document.getElementById("foccupation").value=""
-                document.getElementById("fcivilStatus").value=""    
+                //document.getElementById("fcivilStatus").value=""    
                 document.getElementById("fsuffix").value=""
                
                 }else{

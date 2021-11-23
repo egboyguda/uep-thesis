@@ -9,7 +9,8 @@ const Relief = require('../models/relief');
 //dd pag add housheal
 router.get('/add', async (req, res) => {
   const barangays = await phil.getBarangayByMun('084815');
-  res.render('barangay/househeld', { barangays });
+  const municipal = await phil.getCityMunByProvince('0848');
+  res.render('barangay/househeld', { barangays, municipal });
 });
 
 router.post('/add', async (req, res) => {

@@ -16,23 +16,24 @@ router.get('/send', isLoggedIn, isStaff, async (req, res) => {
 
 router.post('/send', isLoggedIn, isStaff, async (req, res) => {
   const { data } = req.body;
-
+  console.log(data);
   for (i of data) {
     for (j of i.commodityData) {
       console.log(i.barangay);
-      console.log(j);
+      console.log(j.quantity);
       const transaction = await Transaction({
         name: j.commodityName,
         destination: `${i.barangay.trim()}`,
       });
-      transaction.quantity.number = await j.quantity;
+      transaction.quantity.number = await Number(j.quantity);
       transaction.quantity.units = await j.units;
-      const stock = await StockRecord.find({ name: { $eq: j.commodityName } });
-      stock[0].quantity -= await j.quantity;
-      await stock[0].save();
+      // const stock = await StockRecord.find({ name: { $eq: j.commodityName } });
+      //stock[0].quantity -= await j.quantity;
+      //await stock[0].save();
       await transaction.save();
     }
   }
+  res.send('ok');
 });
 
 //dd pag imud household

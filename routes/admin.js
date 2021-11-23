@@ -116,21 +116,14 @@ router.post('/add', isLoggedIn, async (req, res) => {
     });
     //console.log(stock);
 
-    if (stock.length === 0) {
-      const record = await new StockRecord({
-        name: e.commodityName,
-        units: e.units,
-        quantity: parseFloat(e.quantity),
-        expiration: e.expiration,
-      });
-      await record.save();
-      console.log(record);
-    } else {
-      console.log('may sulud');
-
-      stock[0].quantity += parseFloat(e.quantity);
-      await stock[0].save();
-    }
+    const record = await new StockRecord({
+      name: e.commodityName,
+      units: e.units,
+      quantity: parseFloat(e.quantity),
+      expiration: e.expiration,
+    });
+    await record.save();
+    console.log(record);
   }
   await donator.save();
   res.status(200).send('ok');
@@ -344,5 +337,12 @@ router.patch('/edite', async (req, res) => {
       res.send('ok');
     }
   });
+});
+
+//delete commodity
+router.delete('/stock/:id', async (req, res) => {
+  const { id } = req.params;
+  const stock = await StockRecord.findByIdAndDelete(id);
+  res.send('ok');
 });
 module.exports = router;

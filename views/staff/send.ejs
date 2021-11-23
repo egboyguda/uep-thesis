@@ -14,8 +14,8 @@
                         
                     <option selected>Select Goods</option>
                     <% for(data of stock){ %> 
-                      
-                        <option name="<%=data.name  %> "><%=data.name  %> exp: (<%=data.expiration  %>  ) </option>
+                      <% today= new Date(data.expiration) %> 
+                        <option name="<%=data.name  %> "><%=data.name  %> exp: (<%=today.toLocaleDateString("en-US") %>  ) </option>
                         <% } %> 
                     </select>          
                     </div> 
@@ -24,7 +24,9 @@
                         <select name="units" id="units" class="form-select">
                             <option selected>Select Units</option>
                                 <option value="kg">Kg</option>
-                                <option name="pcs">pcs</option> 
+                                <option name="pcs">pcs</option>
+                                <option value="dozens">dozens</option>
+                                <option value="packs">packs</option> 
                         </select>
                         </div>
                         
@@ -109,6 +111,7 @@ class Commodity {
 function eventCheckBox() {
   let checkboxs = document.getElementsByTagName("input");
   for(let i = 0; i < checkboxs.length ; i++) { //zero-based array
+    
     checkboxs[i].checked = !checkboxs[i].checked;
   }
 }
@@ -140,15 +143,20 @@ async function updateForm(){
      var barangayData=[];
             var checkboxes = document.getElementsByName('barangay')
             var checkboxesChecked = [];
+            console.log(checkboxes)
   // loop over them all
   for (var i=0; i<checkboxes.length; i++) {
      // And stick the checked ones onto an array...
      if (checkboxes[i].checked) {
+         console.log(checkboxes[i.value])
         barangayData.push(new BarangaySend(checkboxes[i].value,commodityData));
      }
-  }
+  }console.log(barangayData);
             axios.post('/staff/send',{
+                
                 data:barangayData,
+            }).then((res)=>{
+                alert("added")
             })
  }
 
