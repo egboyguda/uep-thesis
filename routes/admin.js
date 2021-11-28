@@ -13,6 +13,7 @@ const { find } = require('../models/donationModel');
 const Relief = require('../models/relief');
 const Person = require('../models/person');
 const { route } = require('./barangay');
+const Family = require('../models/family');
 
 // router.get('/fake', async (req, res) => {
 //   const user = new User({ username: 'test3', isBarangay: true });
@@ -40,8 +41,12 @@ router.get('/barcode/:id', async (req, res) => {
 });
 router.get('/family/:id', isLoggedIn, async (req, res) => {
   const id = req.params.id;
-  const person = await Person.findById(id);
-  res.render('admin/family', { person });
+  const person = await Family.find({ headFamily: { $eq: id } });
+  const family = await Person.findById(id);
+  console.log(family);
+  //console.log(person.headFamily);
+  //console.log(person);
+  res.render('admin/family', { person, family });
 });
 //dd pag log in
 router.get('/login', (req, res) => {
@@ -343,6 +348,42 @@ router.patch('/edite', async (req, res) => {
 router.delete('/stock/:id', async (req, res) => {
   const { id } = req.params;
   const stock = await StockRecord.findByIdAndDelete(id);
+  res.send('ok');
+});
+
+//family
+router.get('/family/info/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const family = await Family.findById(id);
+  res.send(family);
+});
+router.put('/data/:id', async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  console.log(req.body);
+  const {
+    sector,
+    health,
+    education,
+    civilStatus,
+    workplace,
+    income,
+    occupation,
+    contactNumber,
+  } = req.body;
+
+  const person = await Person.findByIdAndUpdate(id, req.body);
+  res.send(person);
+});
+router.put('/family/edot/:id', async (req, res) => {
+  const { id } = req.params;
+  await Family.findByIdAndUpdate(id, req.body);
+  res.send('ok');
+});
+router.delete('/del/:id', async (req, res) => {
+  const { id } = req.params;
+  await Person.findByIdAndRemove(id);
   res.send('ok');
 });
 module.exports = router;

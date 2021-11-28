@@ -1,8 +1,24 @@
 <% layout('layouts/sidebar')%> 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 <h1 class="text-center">
     Family Members
 </h1>
+
+
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content" id="mda">
+        
+      </div>
+    </div>
+  </div>
+
 <table class="table table-bordered">
+  
     <thead>
         <tr>
             <th>Name</th>
@@ -14,21 +30,166 @@
             <th>Health</th>
             <th>Sector</th>
             <th>Occupation</th>
+            <th>Edit</th>
         </tr>
     </thead>
     <tbody>
-        <% for(data of person.family) {%>
+    
+        <% for(data of person) {%>
             <tr>
                 <td><%= data.name %> </td>
-                <td><%=data.nickName  %> </td>
+                <td><%=data.nickname  %> </td>
                 <td><%= data.relation %> </td>
                 <td><%=data.gender  %> </td>
                 <td><%= data.bday %> </td>
-                <td><%=data.educ  %> </td>
+                <td><%=data.education %> </td>
                 <td><%=data.health %> </td>
                 <td><%=data.sector %> </td>
                 <td><%=data.occupation  %> </td>
+                <td><button type="button" class="btn btn-primary"  onclick="getData('<%=data._id%>')" >
+                    edit
+                  </button></td>
             </tr>
             <% } %>  
     </tbody>
 </table>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+ 
+function sendData(va){
+    axios.put(`/family/info/${val}`,{
+
+    })
+}
+</script>
+<script>
+      var modelBody= document.getElementById('mda')
+    var myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+
+    function getData(val){
+        axios.get(`/family/info/${val}`)
+        .then((res)=>{
+          console.log(modelBody)
+                console.log(res.data)
+                var date = getFormattedDateIn(new Date(res.data.bday))
+                modelBody.innerHTML =`<div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <div>
+            <label for="name" class="form-label">NAME</label>
+          <input type="text" id="name" class="form-control"  value=${res.data.name}>
+          
+       </div>
+       <div>
+          <label for="nickName" class="form-label">Nickname</label>
+          <input type="text" id="nickName" class="form-control" value=${res.data.nickname}>
+          
+       </div>
+       <div>
+          <label for="relation" class="form-label">Relation</label>
+          <input type="text" id="relation" class="form-control" value=${res.data.relation}>
+
+       </div>
+       <div>
+          <label for="gender" class="form-label">Gender</label>
+          <select name="gender" class="form-select" id="gender">
+          
+              <option value="male">male</option>
+              <option value="female">female</option>
+          </select>
+
+       </div>
+       
+       <div>
+          <label for="bday" class="form-label">Birthday</label>
+          <input type="date" id="bday" class="form-control"  value=${date}>
+
+       </div>
+       <div>
+          <label for="education" class="form-label">Highest Educational Attainment</label>
+          <select name="education" id="education" class="form-select">
+                  <option value="${res.data.education}" selected>${res.data.education}</option>
+                  <option value="Elementary level">Elementary Level</option>
+                  <option name="highschool level">High School Level</option>
+                  <option name="college level">College Level</option>
+                  <option value="highschool graduate">Highschool Graduate</option>
+                  <option value="college graduate">College Graduate</option>
+                  <option value="Vocational graduate">Vocational Graduate</option>
+          </select>
+       </div>
+       <div>
+          <label for="health" class="form-label">Health Condition</label>
+          <select name="health" id="health" class="form-select">
+              <option value='${res.data.health}' selected>${res.data.health}</option>
+            
+                  <option value="sakit sa puso">Sakit sa puso</option>
+                  <option name="altapresyun">Altapresyun</option>
+                  <option name="sakit sa baga">Sakit sa Baga</option>
+                  <option name="diyabetis">Diyabetis</option>
+                  <option name="kanser">Kanser</option>
+                 
+          </select>
+       </div>
+       <div>
+          <label for="sector" class="form-label">Sector</label>
+          <select name="sector" id="sector" class="form-select">
+              <option>N/A</option>
+              <option value='${res.data.sector}' selected>${res.data.sector}</option>
+                  <option value="nakakatanda">Nakakatanda</option>
+                  <option name="buntis">Buntis</option>
+                  <option name="nagpapasusong ina">Nag Papasusong ina</option>
+                  <option name="solo parent">Solo Parent</option>
+                  <option name="walang tirahan">Walang Tirahan</option>
+          </select>
+       </div>
+       <div>
+        <label for="occupation" class="form-label">Occupation</label>
+          <input type="text" id="occupation" class="form-control" value=${res.data.occupation}>
+
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" onclick=updateData("${res.data._id}")>Save changes</button>
+        </div>`
+         myModal.show()
+        })
+    }
+    function getFormattedDateIn(date) {
+    let year = date.getFullYear();
+    let month = (1 + date.getMonth()).toString().padStart(2, '0');
+    let day = date.getDate().toString().padStart(2, '0');
+  
+    return year + '-' + month + '-' + day;
+}
+</script>
+<script>
+  function updateData(val){
+    var sector = document.getElementById('sector').value
+var health = document.getElementById('health').value
+var education = document.getElementById('education').value
+var relation = document.getElementById('relation').value
+var nickName =document.getElementById("nickName").value
+var gender =document.getElementById("gender").value
+var occupation = document.getElementById("occupation").value
+var bday = document.getElementById("bday").value
+var name = document.getElementById('name').value
+console.log(val)
+axios.put(`/family/edot/${val}`,{
+    health:health,
+    name:name,
+    nickName:nickName,
+    gender:gender,
+    occupation:occupation,
+    bday:bday,
+    education:education,
+    sector:sector,
+    relation:relation
+
+}).then(()=>{
+  location.reload();
+})
+  }
+</script>

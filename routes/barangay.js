@@ -5,6 +5,7 @@ const qr = require('qrcode');
 const Person = require('../models/person');
 const { isBarangay, isLoggedIn } = require('../middleware');
 const Relief = require('../models/relief');
+const Family = require('../models/family');
 
 //dd pag add housheal
 router.get('/add', async (req, res) => {
@@ -47,7 +48,24 @@ router.post('/add', async (req, res) => {
     bday: birthday,
     nickname: nickname,
   });
-  await user.family.push(...family);
+  // /
+  console.log(family);
+  //await user.family.push(...family);
+  for (data of family) {
+    const family = await new Family({
+      name: data.name,
+      nickname: data.nickName,
+      relation: data.relation,
+      education: data.educ,
+      health: data.health,
+      sector: data.sector,
+      bday: data.bday,
+      occupation: data.occupation,
+      gender: data.gender,
+      headFamily: user,
+    });
+    await family.save();
+  }
   await user.save();
   res.send(user._id);
 });
